@@ -28,7 +28,7 @@ export default function HamburgerMenu({
       {/* Overlay for when the menu is open - uses a subtle fade-in */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-gray-900 bg-opacity-50 z-40 transition-opacity duration-500 ease-in-out"
+          className="fixed inset-0  bg-opacity-50 z-40 transition-opacity duration-500 ease-in-out"
           onClick={onClose} // Close menu when overlay is clicked
           aria-hidden="true"
         ></div>
