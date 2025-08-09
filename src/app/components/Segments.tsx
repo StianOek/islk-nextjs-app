@@ -125,7 +125,7 @@ export default function Segments() {
                 <p>{club.description}</p>
               </div>
               <a
-                href={`https://www.strava.com/clubs/${club.url}`}
+                href={`https://www.strava.com/clubs/${club.id}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block mt-4 px-6 py-2 rounded-full border-2 border-[#FC5200] text-[#FC5200] hover:bg-[#FC5200] hover:text-white font-bold transition-colors duration-300"
