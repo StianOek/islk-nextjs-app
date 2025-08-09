@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa";
 
-export default function EventDetailPage({}: { params: { slug: string } }) {
+export default function EventDetailPage() {
   // Hardkodet data for Ihlen Rundt 2025.
   // params.slug brukes ikke, men komponenten beholder strukturen for å passe inn i ruten
   const event = {
