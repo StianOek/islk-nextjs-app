@@ -79,7 +79,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 backdrop-blur-md">
+      <header className="sticky top-0 z-30 backdrop-blur-md ">
         <div className="max-w-7xl mx-auto flex items-center justify-between py-4 px-4 md:px-8">
           {/* Logo */}
           <div>

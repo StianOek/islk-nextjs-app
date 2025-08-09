@@ -86,7 +86,7 @@ export default function Home(): React.ReactElement {
 
   return (
     <>
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-gray-800">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-gray-800 dark:text-gray-300">
         <section
           ref={heroRef}
           className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-center justify-between py-16"
@@ -106,7 +106,7 @@ export default function Home(): React.ReactElement {
                 LØPEKLUBB
               </h1>
             </div>
-            <p className="text-xl text-gray-600 max-w-lg mx-auto lg:mx-0">
+            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-lg mx-auto lg:mx-0">
               Din lavterskel løpeklubb i Indre Østfold. Vi fokuserer på
               løpeglede og fellesskap, uansett nivå!
             </p>
@@ -135,12 +135,12 @@ export default function Home(): React.ReactElement {
         {/* --- */}
 
         {/* Strava-seksjon */}
-        <section id="strava-section" className="py-16">
+        <section id="strava-section" className="py-16 ">
           <div className="flex flex-col items-center text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-300  leading-tight">
               Siste løpeturer på Strava
             </h2>
-            <p className="mt-4 text-xl text-gray-600 max-w-2xl">
+            <p className="mt-4 text-xl text-gray-600 dark:text-gray-400 max-w-2xl">
               Følg våre aktiviteter og se hvilke løpeturer vi har vært på.
             </p>
             <button

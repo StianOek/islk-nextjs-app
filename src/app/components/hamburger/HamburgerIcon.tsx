@@ -23,27 +23,27 @@ const HamburgerIcon: FC<HamburgerIconProps> = ({
   return (
     <button
       onClick={toggleMenu}
-      className="relative z-50 flex flex-col justify-between items-center w-8  group focus:outline-none focus:ring-2  rounded-md transition duration-200 ease-in-out cursor-pointer"
+      className="relative z-50 flex flex-col justify-between items-center w-8 group rounded-md transition duration-200 ease-in-out cursor-pointer"
       aria-label="Toggle menu"
     >
       {/* Container for de animerte linjene */}
-      <div className="flex flex-col justify-between w-[24px] h-[20px] transform transition-all duration-300 ease-in-out">
+      <div className="flex flex-col justify-between w-[35px] h-[25px] transform transition-all duration-300 ease-in-out">
         {/* Første linje */}
         <div
-          className={`h-1 w-full bg-slate-950 dark:bg-white rounded-lg transition-all duration-300 ease-in-out ${
-            isMenuOpen ? "rotate-45 translate-y-[9px] translate-x-0" : ""
+          className={`h-1 w-full bg-[#FC5200] rounded-lg transition-all duration-300 ease-in-out ${
+            isMenuOpen ? "rotate-45 translate-y-[11px] translate-x-0" : ""
           }`}
         ></div>
         {/* Andre linje (midten) */}
         <div
-          className={`h-1 w-full bg-slate-950 dark:bg-white rounded-lg transition-all duration-300 ease-in-out ${
+          className={`h-1 w-full bg-[#FC5200] rounded-lg transition-all duration-300 ease-in-out ${
             isMenuOpen ? "opacity-0" : ""
           }`}
         ></div>
         {/* Tredje linje */}
         <div
-          className={`h-1 w-full bg-slate-950 dark:bg-white rounded-lg transition-all duration-300 ease-in-out ${
-            isMenuOpen ? "-rotate-45 -translate-y-[9px] translate-x-0" : ""
+          className={`h-1 w-full bg-[#FC5200] rounded-lg transition-all duration-300 ease-in-out ${
+            isMenuOpen ? "-rotate-45 -translate-y-[10px] translate-x-0" : ""
           }`}
         ></div>
       </div>

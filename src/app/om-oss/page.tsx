@@ -55,16 +55,16 @@ export default function OmOss(): React.ReactElement {
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-gray-800"
       >
         <header className="mb-12 text-center animate-fade-in-down">
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-gray-300 leading-tight">
             <span className="text-[#FC5200]">OM</span> OSS
           </h1>
-          <p className="mt-4 text-xl text-gray-600 font-light">
+          <p className="mt-4 text-xl text-gray-600 dark:text-gray-300 font-light">
             Løpeglede i fokus – for alle nivåer!
           </p>
         </header>
 
         <section className="grid md:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6 text-lg text-gray-700">
+          <div className="space-y-6 text-lg text-gray-700 dark:text-gray-500">
             <p>
               Ihlen Sosiale Løpeklubb er et lavterskeltilbud for alle som ønsker
               å løpe sammen med andre i en hyggelig og uformell setting. Vi
@@ -72,7 +72,7 @@ export default function OmOss(): React.ReactElement {
               inkluderende miljø hvor løping handler like mye om fellesskap som
               om fysisk aktivitet.
             </p>
-            <h2 className="text-2xl font-semibold text-gray-900 pt-4">
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-300 pt-4">
               Hvem kan bli med?
             </h2>
             <p>
@@ -87,11 +87,11 @@ export default function OmOss(): React.ReactElement {
             </p>
           </div>
 
-          <div className="bg-gray-50 p-8 rounded-lg shadow-md">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+          <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-300 mb-4">
               Hva tilbyr vi?
             </h2>
-            <ul className="space-y-4 text-lg text-gray-700">
+            <ul className="space-y-4 text-lg text-gray-700 dark:text-gray-400 ">
               <li className="flex items-center">
                 <svg
                   className="w-6 h-6 text-[#FC5200] mr-3 flex-shrink-0"
@@ -154,7 +154,7 @@ export default function OmOss(): React.ReactElement {
         </section>
 
         <section className="mt-16 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-300 leading-tight">
             Bli med oss!
           </h2>
           <p className="mt-4 text-xl text-gray-600 max-w-2xl mx-auto">
