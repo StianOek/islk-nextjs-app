@@ -1,103 +1,243 @@
+"use client";
+
+import React, { useState, useRef } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import Image from "next/image";
+import { FaStrava } from "react-icons/fa"; // Bruker react-icons for Strava-logoen
 
-export default function Home() {
+// Registrer GSAP-plugin for å bruke det med React
+gsap.registerPlugin(useGSAP);
+
+// Definerer en mock-type for Strava-aktiviteter
+interface StravaActivity {
+  id: number;
+  name: string;
+  distance: number; // i meter
+  moving_time: number; // i sekunder
+  start_date: string;
+}
+
+// Mock data for Strava-aktiviteter
+const mockStravaActivities: StravaActivity[] = [
+  {
+    id: 1,
+    name: "Morgentur i skogen",
+    distance: 7200, // 7.2 km
+    moving_time: 2700, // 45 min
+    start_date: "2023-10-25T08:00:00Z",
+  },
+  {
+    id: 2,
+    name: "Rask økt i sentrum",
+    distance: 5000, // 5 km
+    moving_time: 1500, // 25 min
+    start_date: "2023-10-23T18:30:00Z",
+  },
+  {
+    id: 3,
+    name: "Langtur rundt Ihlen-vannet",
+    distance: 15500, // 15.5 km
+    moving_time: 5400, // 90 min
+    start_date: "2023-10-21T10:00:00Z",
+  },
+];
+
+// Hovedkomponenten for hjemmesiden
+export default function Home(): React.ReactElement {
+  // useRef for å referere til animasjonselementer
+  const heroRef = useRef<HTMLDivElement>(null);
+  const [isStravaModalOpen, setIsStravaModalOpen] = useState<boolean>(false);
+
+  // GSAP-animasjon for innlasting av siden
+  useGSAP(
+    () => {
+      if (heroRef.current) {
+        gsap.fromTo(
+          heroRef.current.children,
+          {
+            opacity: 0,
+            y: 50,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1.2,
+            ease: "power2.out",
+            stagger: 0.2,
+          }
+        );
+      }
+    },
+    { scope: heroRef }
+  );
+
+  // Hjelpefunksjon for å formatere tid til minutter og sekunder
+  const formatTime = (seconds: number): string => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}m ${remainingSeconds}s`;
+  };
+
+  // Hjelpefunksjon for å formatere distanse fra meter til kilometer
+  const formatDistance = (meters: number): string => {
+    return `${(meters / 1000).toFixed(1)} km`;
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-gray-800">
+        <section
+          ref={heroRef}
+          className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-center justify-between py-16"
+        >
+          {/* Venstre side: Tittel og knapper */}
+          <div className="flex flex-col w-full lg:w-1/2 text-center lg:text-left space-y-8 animate-fade-in">
+            <div className="flex flex-col w-full">
+              <div className="flex flex-col lg:flex-row gap-2 lg:gap-4">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold">
+                  IHLEN
+                </h1>
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-thin">
+                  SOSIALE
+                </h1>
+              </div>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-[#FC5200]">
+                LØPEKLUBB
+              </h1>
+            </div>
+            <p className="text-xl text-gray-600 max-w-lg mx-auto lg:mx-0">
+              Din lavterskel løpeklubb i Indre Østfold. Vi fokuserer på
+              løpeglede og fellesskap, uansett nivå!
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center lg:justify-start">
+              <a
+                href="#strava-section"
+                className="text-[#FC5200] px-6 py-4 rounded-full text-lg font-bold border-2 border-[#FC5200] hover:bg-[#FC5200] hover:text-white transition-colors duration-300"
+              >
+                SE VÅRE LØPETURER
+              </a>
+            </div>
+          </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          {/* Høyre side: Bilde */}
+          <div className="w-full lg:w-1/2 max-w-sm sm:max-w-md lg:max-w-full h-auto mt-8 lg:mt-0 animate-fade-in-up">
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              width={1000}
+              height={1000}
+              src={"/images/islk-folka.png"}
+              alt={"Bildet av Ihlen Sosiale Løpeklubb"}
+              className="w-full h-auto rounded-xl "
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+          </div>
+        </section>
+
+        {/* --- */}
+
+        {/* Strava-seksjon */}
+        <section id="strava-section" className="py-16">
+          <div className="flex flex-col items-center text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">
+              Siste løpeturer på Strava
+            </h2>
+            <p className="mt-4 text-xl text-gray-600 max-w-2xl">
+              Følg våre aktiviteter og se hvilke løpeturer vi har vært på.
+            </p>
+            <button
+              onClick={() => setIsStravaModalOpen(true)}
+              className="mt-6 flex items-center px-6 py-3 bg-[#fc5200] text-white font-medium rounded-full shadow-lg hover:bg-[#fc5400d3] transition duration-300"
+            >
+              <FaStrava className="mr-2 h-5 w-5" />
+              Koble til Strava
+            </button>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Viser mock data for Strava-aktiviteter */}
+            {mockStravaActivities.map((activity) => (
+              <div
+                key={activity.id}
+                className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-xl font-bold text-gray-900">
+                    {activity.name}
+                  </h3>
+                  <span className="text-sm text-gray-500">
+                    {new Date(activity.start_date).toLocaleDateString("nb-NO")}
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 gap-4 text-center">
+                  <div className="flex flex-col items-center">
+                    <span className="text-3xl font-bold text-[#FC5200]">
+                      {formatDistance(activity.distance)}
+                    </span>
+                    <span className="text-sm text-gray-500">Distanse</span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <span className="text-3xl font-bold text-[#FC5200]">
+                      {formatTime(activity.moving_time)}
+                    </span>
+                    <span className="text-sm text-gray-500">
+                      Tid i bevegelse
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+
+      {/* Modal for Strava-tilkobling */}
+      {isStravaModalOpen && (
+        <div
+          className="fixed inset-0 backdrop-blur-sm bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full flex justify-center items-center z-50 p-4"
+          onClick={() => setIsStravaModalOpen(false)}
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          <div
+            className="relative bg-white p-8 rounded-lg shadow-xl max-w-sm w-full mx-auto text-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setIsStravaModalOpen(false)}
+              className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+            <div className="flex flex-col items-center">
+              <FaStrava className="h-12 w-12 text-[#FC5200] mb-4" />
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                Koble til Strava
+              </h3>
+              <p className="text-lg text-gray-700 mb-6">
+                For å vise dine aktiviteter her, må du autorisere appen via
+                Strava. Dette er en demo.
+              </p>
+              <a
+                href="#"
+                className="flex items-center justify-center px-6 py-3 bg-[#FC5200] text-white font-medium rounded-full shadow-lg hover:bg-[#fc5400d3] transition duration-300 w-full"
+              >
+                <FaStrava className="mr-2 h-5 w-5" />
+                Autoriser med Strava
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
