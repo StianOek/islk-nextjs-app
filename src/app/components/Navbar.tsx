@@ -8,12 +8,8 @@ import Image from "next/image";
 import HamburgerIcon from "./hamburger/HamburgerIcon";
 import HamburgerMenu from "./hamburger/HamburgerMenu";
 
-// You'll need to define your HamburgerIcon and HamburgerMenu components separately.
-// For this example, I'll provide a basic implementation for them.
-// HamburgerIcon component
-
-// HamburgerMenu component (the sidebar/modal for mobile)
-
+// Navbar-komponenten fungerer som hovednavigasjonslinjen
+// og håndterer mobilmeny, overganger og mørk modus.
 export default function Navbar() {
   const pathname = usePathname();
   const router = useTransitionRouter();
@@ -53,10 +49,11 @@ export default function Navbar() {
     router.push(path, {
       onTransitionReady: triggerPageTransition,
     });
-    // Close the hamburger menu after a link is clicked
+    // Lukk mobilmenyen etter at en lenke er klikket
     setIsMenuOpen(false);
   };
 
+  // Håndterer lagring av tema i lokal lagring og sjekker foretrukket tema
   useEffect(() => {
     const saved = localStorage.getItem("theme");
     const prefersDark = window.matchMedia(
@@ -82,25 +79,21 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto flex items-center justify-between py-4">
+      <header className="sticky top-0 z-50 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto flex items-center justify-between py-4 px-4 md:px-8">
+          {/* Logo */}
           <div>
             <Link
               onClick={(e) => handleNavigation(e, "/")}
               href={"/"}
-              aria-label="Home"
+              aria-label="Hjem"
             >
-              <Image
-                width={50}
-                height={50}
-                src={"/images/runden.svg"}
-                alt="Logo"
-              />
+              <Image width={50} height={50} src={"logo.svg"} alt="Logo" />
             </Link>
           </div>
 
           <div className="flex items-center gap-4">
-            {/* Desktop Navigation Links */}
+            {/* Desktop-navigasjonslenker */}
             <nav className="hidden lg:flex items-center gap-6 text-base font-semibold text-gray-700 dark:text-gray-300">
               {navLinks.map((link) => (
                 <Link
@@ -116,7 +109,7 @@ export default function Navbar() {
               ))}
             </nav>
 
-            {/* Dark Mode Toggle */}
+            {/* Veksle mellom lys og mørk modus */}
             <button
               aria-label="Toggle Dark Mode"
               onClick={toggleDarkMode}
@@ -124,7 +117,7 @@ export default function Navbar() {
               title="Toggle Dark Mode"
             >
               {isDark ? (
-                // Sun icon
+                // Sol-ikon
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6 text-yellow-400"
@@ -140,7 +133,7 @@ export default function Navbar() {
                   />
                 </svg>
               ) : (
-                // Moon icon
+                // Måne-ikon
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6 text-gray-800 dark:text-gray-200"
@@ -158,7 +151,7 @@ export default function Navbar() {
               )}
             </button>
 
-            {/* Hamburger Icon for Mobile - hidden on large screens */}
+            {/* Hamburger-ikon for mobil - skjult på store skjermer */}
             <div className="lg:hidden">
               <HamburgerIcon toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
             </div>
@@ -166,7 +159,7 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Hamburger Menu for Mobile - hidden on large screens */}
+      {/* Hamburgermeny for mobil - skjult på store skjermer */}
       <div className="lg:hidden">
         <HamburgerMenu
           navLinks={navLinks}

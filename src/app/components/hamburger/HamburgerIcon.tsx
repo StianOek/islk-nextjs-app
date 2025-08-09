@@ -1,11 +1,21 @@
 import { FC, ReactElement } from "react";
 
+/**
+ * @typedef {object} HamburgerIconProps
+ * @property {() => void} toggleMenu - Funksjon som kaller på menyen.
+ * @property {boolean} isMenuOpen - En boolean som indikerer om menyen er åpen eller lukket.
+ */
 type HamburgerIconProps = {
-  // Prop types here
   toggleMenu: () => void;
   isMenuOpen: boolean;
 };
 
+/**
+ * En animert hamburger-ikon komponent for å veksle mellom en meny og et lukkeikon.
+ *
+ * @param {HamburgerIconProps} props - Egenskaper for komponenten.
+ * @returns {ReactElement} En React-knapp med animerte linjer.
+ */
 const HamburgerIcon: FC<HamburgerIconProps> = ({
   toggleMenu,
   isMenuOpen,
@@ -13,33 +23,30 @@ const HamburgerIcon: FC<HamburgerIconProps> = ({
   return (
     <button
       onClick={toggleMenu}
-      className="text-slate-950 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-2 hover:text-slate-500 transition duration-200 ease-in-out cursor-pointer"
+      className="relative z-50 flex flex-col justify-between items-center w-8  group focus:outline-none focus:ring-2  rounded-md transition duration-200 ease-in-out cursor-pointer"
       aria-label="Toggle menu"
     >
-      <svg
-        className="w-8 h-8"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        {/* Renders 'X' icon if menu is open, otherwise renders hamburger */}
-        {isMenuOpen ? (
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M6 18L18 6M6 6l12 12"
-          ></path>
-        ) : (
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M4 6h16M4 12h16M4 18h16"
-          ></path>
-        )}
-      </svg>
+      {/* Container for de animerte linjene */}
+      <div className="flex flex-col justify-between w-[24px] h-[20px] transform transition-all duration-300 ease-in-out">
+        {/* Første linje */}
+        <div
+          className={`h-1 w-full bg-slate-950 dark:bg-white rounded-lg transition-all duration-300 ease-in-out ${
+            isMenuOpen ? "rotate-45 translate-y-[9px] translate-x-0" : ""
+          }`}
+        ></div>
+        {/* Andre linje (midten) */}
+        <div
+          className={`h-1 w-full bg-slate-950 dark:bg-white rounded-lg transition-all duration-300 ease-in-out ${
+            isMenuOpen ? "opacity-0" : ""
+          }`}
+        ></div>
+        {/* Tredje linje */}
+        <div
+          className={`h-1 w-full bg-slate-950 dark:bg-white rounded-lg transition-all duration-300 ease-in-out ${
+            isMenuOpen ? "-rotate-45 -translate-y-[9px] translate-x-0" : ""
+          }`}
+        ></div>
+      </div>
     </button>
   );
 };
