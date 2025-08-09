@@ -4,7 +4,12 @@ const nextConfig: NextConfig = {
   /* config options here */
 
   images: {
-    domains: ["cdn.sanity.io"],
+    domains: [
+      "cdn.sanity.io",
+      "d3nn82uaxijpm6.cloudfront.net",
+      "dgalywyr863hv.cloudfront.net",
+      "images.strava.com",
+    ],
   },
 };
 

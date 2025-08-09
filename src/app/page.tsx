@@ -5,43 +5,10 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import Image from "next/image";
 import { FaStrava } from "react-icons/fa"; // Bruker react-icons for Strava-logoen
+import Segments from "./components/Segments";
 
 // Registrer GSAP-plugin for å bruke det med React
 gsap.registerPlugin(useGSAP);
-
-// Definerer en mock-type for Strava-aktiviteter
-interface StravaActivity {
-  id: number;
-  name: string;
-  distance: number; // i meter
-  moving_time: number; // i sekunder
-  start_date: string;
-}
-
-// Mock data for Strava-aktiviteter
-const mockStravaActivities: StravaActivity[] = [
-  {
-    id: 1,
-    name: "Morgentur i skogen",
-    distance: 7200, // 7.2 km
-    moving_time: 2700, // 45 min
-    start_date: "2023-10-25T08:00:00Z",
-  },
-  {
-    id: 2,
-    name: "Rask økt i sentrum",
-    distance: 5000, // 5 km
-    moving_time: 1500, // 25 min
-    start_date: "2023-10-23T18:30:00Z",
-  },
-  {
-    id: 3,
-    name: "Langtur rundt Ihlen-vannet",
-    distance: 15500, // 15.5 km
-    moving_time: 5400, // 90 min
-    start_date: "2023-10-21T10:00:00Z",
-  },
-];
 
 // Hovedkomponenten for hjemmesiden
 export default function Home(): React.ReactElement {
@@ -71,18 +38,6 @@ export default function Home(): React.ReactElement {
     },
     { scope: heroRef }
   );
-
-  // Hjelpefunksjon for å formatere tid til minutter og sekunder
-  const formatTime = (seconds: number): string => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}m ${remainingSeconds}s`;
-  };
-
-  // Hjelpefunksjon for å formatere distanse fra meter til kilometer
-  const formatDistance = (meters: number): string => {
-    return `${(meters / 1000).toFixed(1)} km`;
-  };
 
   return (
     <>
@@ -132,16 +87,14 @@ export default function Home(): React.ReactElement {
           </div>
         </section>
 
-        {/* --- */}
-
         {/* Strava-seksjon */}
         <section id="strava-section" className="py-16 ">
           <div className="flex flex-col items-center text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-300  leading-tight">
-              Siste løpeturer på Strava
+              Klubb og segmenter
             </h2>
             <p className="mt-4 text-xl text-gray-600 dark:text-gray-400 max-w-2xl">
-              Følg våre aktiviteter og se hvilke løpeturer vi har vært på.
+              Følg våre aktiviteter på strava og se hvilke segmenter vi jogger.
             </p>
             <button
               onClick={() => setIsStravaModalOpen(true)}
@@ -152,40 +105,7 @@ export default function Home(): React.ReactElement {
             </button>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Viser mock data for Strava-aktiviteter */}
-            {mockStravaActivities.map((activity) => (
-              <div
-                key={activity.id}
-                className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-xl font-bold text-gray-900">
-                    {activity.name}
-                  </h3>
-                  <span className="text-sm text-gray-500">
-                    {new Date(activity.start_date).toLocaleDateString("nb-NO")}
-                  </span>
-                </div>
-                <div className="grid grid-cols-2 gap-4 text-center">
-                  <div className="flex flex-col items-center">
-                    <span className="text-3xl font-bold text-[#FC5200]">
-                      {formatDistance(activity.distance)}
-                    </span>
-                    <span className="text-sm text-gray-500">Distanse</span>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <span className="text-3xl font-bold text-[#FC5200]">
-                      {formatTime(activity.moving_time)}
-                    </span>
-                    <span className="text-sm text-gray-500">
-                      Tid i bevegelse
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <Segments />
         </section>
       </main>
 
