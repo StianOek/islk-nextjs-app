@@ -13,48 +13,20 @@ export default function Segments() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const accessToken = process.env.NEXT_PUBLIC_STRAVA_ACCESS_TOKEN;
-        const segmentIds = [
-          process.env.NEXT_PUBLIC_STRAVA_SEGMENT_ID_1,
-          process.env.NEXT_PUBLIC_STRAVA_SEGMENT_ID_2,
-          process.env.NEXT_PUBLIC_STRAVA_SEGMENT_ID_3,
-        ].filter(Boolean);
-
-        const segmentPromises = segmentIds.map((id) =>
-          fetch(`https://www.strava.com/api/v3/segments/${id}`, {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          }).then((res) => {
-            if (!res.ok)
-              throw new Error(`Segment fetch error: ${res.statusText}`);
-            return res.json();
-          })
-        );
-        const segmentsData = await Promise.all(segmentPromises);
-        setSegments(segmentsData);
-
-        const clubId = process.env.NEXT_PUBLIC_STRAVA_CLUB_ID;
-        if (clubId) {
-          const clubRes = await fetch(
-            `https://www.strava.com/api/v3/clubs/${clubId}`,
-            {
-              headers: { Authorization: `Bearer ${accessToken}` },
-            }
-          );
-          if (!clubRes.ok)
-            throw new Error(`Club fetch error: ${clubRes.statusText}`);
-          const clubData = await clubRes.json();
-          setClub(clubData);
+        const res = await fetch("/api/strava");
+        if (!res.ok) {
+          throw new Error(`Feil ved henting: ${res.statusText}`);
         }
-      } catch (e: unknown) {
-        if (e instanceof Error) {
-          setError(e);
-        } else {
-          setError(new Error("En ukjent feil oppstod."));
-        }
+        const data = await res.json();
+        setSegments(data.segments || []);
+        setClub(data.club || null);
+      } catch (e) {
+        setError(e instanceof Error ? e : new Error("Ukjent feil"));
       } finally {
         setIsLoading(false);
       }
     };
+
     fetchData();
   }, []);
 
@@ -75,7 +47,7 @@ export default function Segments() {
   }
 
   return (
-    <main className="min-h-screen text-gray-800 dark:text-gray-300 flex flex-col items-center  py-10 md:py-16 gap-12 max-w-7xl mx-auto">
+    <main className="min-h-screen text-gray-800 dark:text-gray-300 flex flex-col items-center py-10 md:py-16 gap-12 max-w-7xl mx-auto">
       {/* Club Section */}
       {club && (
         <section
@@ -138,7 +110,7 @@ export default function Segments() {
       )}
 
       {/* Segments Section */}
-      <section className="w-full  grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <section className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {segments.map((segment) => (
           <article
             key={segment.id}
@@ -192,7 +164,6 @@ export default function Segments() {
               </div>
             </div>
 
-            {/* Local Legend Section */}
             {segment.local_legend && (
               <div className="mt-6 bg-gray-100 dark:bg-gray-700 rounded-lg p-4 text-gray-800 dark:text-gray-300 flex flex-col sm:flex-row items-center gap-4 shadow-inner">
                 <img
