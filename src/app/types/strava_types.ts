@@ -73,3 +73,13 @@ export interface StravaClub {
   owner_id: number;
   following_count: number;
 }
+
+export interface ClubActivity {
+  name: string;
+  distance: number;
+  moving_time: number;
+  elapsed_time: number;
+  total_elevation_gain: number;
+  sport_type: string;
+  athlete: { firstname: string; lastname: string };
+}

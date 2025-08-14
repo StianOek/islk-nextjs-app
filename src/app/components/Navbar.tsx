@@ -1,18 +1,18 @@
 "use client";
 
 import { MouseEvent, useEffect, useState } from "react";
-import { useTransitionRouter } from "next-view-transitions";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import HamburgerIcon from "./hamburger/HamburgerIcon";
 import HamburgerMenu from "./hamburger/HamburgerMenu";
+import router from "next/router";
 
 // Navbar-komponenten fungerer som hovednavigasjonslinjen
 // og håndterer mobilmeny, overganger og mørk modus.
 export default function Navbar() {
   const pathname = usePathname();
-  const router = useTransitionRouter();
+
   const [isDark, setIsDark] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -27,28 +27,12 @@ export default function Navbar() {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  function triggerPageTransition() {
-    document.documentElement.animate(
-      [
-        { clipPath: "polygon(25% 75%, 75% 75%, 75% 75%, 25% 75%)" },
-        { clipPath: "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)" },
-      ],
-      {
-        duration: 2000,
-        easing: "cubic-bezier(0.9, 0, 0.1,1)",
-        pseudoElement: "::view-transition-new(root)",
-      }
-    );
-  }
-
   const handleNavigation = (e: MouseEvent, path: string) => {
     if (path === pathname) {
       e.preventDefault();
       return;
     }
-    router.push(path, {
-      onTransitionReady: triggerPageTransition,
-    });
+    router.push(path, {});
     // Lukk mobilmenyen etter at en lenke er klikket
     setIsMenuOpen(false);
   };
