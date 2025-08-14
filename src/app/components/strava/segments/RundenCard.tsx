@@ -31,7 +31,7 @@ export default function RundenCard({ segment }: RundenCardProps) {
 
       {/* Interactive map */}
       {/* This div now holds the dynamically imported SegmentMap component */}
-      <div className="flex justify-center items-center bg-gray-100 dark:bg-gray-700 rounded-lg p-4 w-[300px] h-[200px]">
+      <div className="flex-1 flex justify-center items-center bg-gray-100 dark:bg-gray-700 rounded-lg min-h-[200px] h-full">
         <SegmentMap encoded={segment.map.polyline} />
       </div>
     </section>

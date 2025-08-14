@@ -12,7 +12,7 @@ export default function SegmentsGrid({ segments }: SegmentsGridProps) {
   if (!segments.length) return null;
 
   return (
-    <section className="w-full flex flex-col lg:flex-row gap-6">
+    <section className="w-full flex flex-col gap-6">
       {segments.map((segment) => (
         <article
           key={segment.id}
@@ -37,7 +37,7 @@ export default function SegmentsGrid({ segments }: SegmentsGridProps) {
           </div>
 
           {/* Right side: Map */}
-          <div className="flex-1 w-full md:w-auto">
+          <div className="flex-1 flex justify-center items-center bg-gray-100 dark:bg-gray-700 rounded-lg min-h-[200px] h-full">
             <SegmentMap encoded={segment.map.polyline} />
           </div>
         </article>

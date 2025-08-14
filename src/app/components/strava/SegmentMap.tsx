@@ -3,13 +3,22 @@
 import dynamic from "next/dynamic";
 import "leaflet/dist/leaflet.css";
 import polyline from "@mapbox/polyline";
+import { useEffect } from "react";
+import { useMap } from "react-leaflet";
 
-// We dynamically import the entire component to prevent it from being rendered on the server.
-// The ssr: false flag is crucial as it tells Next.js to skip this component during the build process.
+// Custom hook to invalidate the map size on component mount.
+// This is important for ensuring the map renders correctly in a dynamically sized container.
+const MapResizeHook = () => {
+  const map = useMap();
+  useEffect(() => {
+    map.invalidateSize();
+  }, [map]);
+  return null;
+};
+
 const SegmentMap = dynamic(
   () =>
     import("react-leaflet").then(({ MapContainer, TileLayer, Polyline }) => {
-      // This is the actual component that will render on the client
       return function InternalSegmentMap({ encoded }: { encoded: string }) {
         const points = polyline.decode(encoded); // [lat, lng][]
 
@@ -18,11 +27,13 @@ const SegmentMap = dynamic(
         return (
           <MapContainer
             bounds={points}
-            style={{ width: "100%", height: "100%" }}
-            className="rounded-xl"
+            style={{ width: "100%", height: "200px" }}
+            className="rounded-xl z-10"
+            boundsOptions={{ padding: [50, 50] }}
           >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             <Polyline positions={points} pathOptions={{ color: "#FC5200" }} />
+            <MapResizeHook /> {/* Add this hook to handle resizing */}
           </MapContainer>
         );
       };
