@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden h-screen pt-20">
+    <section className="relative overflow-hidden h-screen ">
       {/* Fullbredde bakgrunn */}
 
       {/* Innhold container */}

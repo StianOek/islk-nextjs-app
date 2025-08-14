@@ -46,7 +46,7 @@ export default function RootLayout({
           */}
           <div className=" mx-auto ">
             <Navbar />
-            {children}
+            <div className="pt-20">{children}</div>
             <Footer />
           </div>
         </main>

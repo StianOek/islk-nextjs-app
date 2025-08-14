@@ -42,7 +42,7 @@ export default function Home(): React.ReactElement {
 
   return (
     <>
-      <main className="  text-gray-800 dark:text-gray-300">
+      <main className="  text-gray-800 dark:text-gray-300 ">
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-gray-800 dark:text-gray-300">
           <Hero />
         </section>
