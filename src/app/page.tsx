@@ -3,9 +3,10 @@
 import React, { useState, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import Image from "next/image";
 import { FaStrava } from "react-icons/fa"; // Bruker react-icons for Strava-logoen
 import Strava from "./components/strava/Strava";
+import Hero from "./components/Hero";
+import Social from "./components/social/Social";
 
 // Registrer GSAP-plugin for å bruke det med React
 gsap.registerPlugin(useGSAP);
@@ -41,52 +42,11 @@ export default function Home(): React.ReactElement {
 
   return (
     <>
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-gray-800 dark:text-gray-300">
-        <section
-          ref={heroRef}
-          className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-center justify-between py-16"
-        >
-          {/* Venstre side: Tittel og knapper */}
-          <div className="flex flex-col w-full lg:w-1/2 text-center lg:text-left space-y-8 animate-fade-in">
-            <div className="flex flex-col w-full">
-              <div className="flex flex-col lg:flex-row gap-2 lg:gap-4">
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold">
-                  IHLEN
-                </h1>
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-thin">
-                  SOSIALE
-                </h1>
-              </div>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-[#FC5200]">
-                LØPEKLUBB
-              </h1>
-            </div>
-            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-lg mx-auto lg:mx-0">
-              Din lavterskel løpeklubb i Indre Østfold. Vi fokuserer på
-              løpeglede og fellesskap, uansett nivå!
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center lg:justify-start">
-              <a
-                href="#strava-section"
-                className="text-[#FC5200] px-6 py-4 rounded-full text-lg font-bold border-2 border-[#FC5200] hover:bg-[#FC5200] hover:text-white transition-colors duration-300"
-              >
-                SE VÅRE LØPETURER
-              </a>
-            </div>
-          </div>
-
-          {/* Høyre side: Bilde */}
-          <div className="w-full lg:w-1/2 max-w-sm sm:max-w-md lg:max-w-full h-auto mt-8 lg:mt-0 animate-fade-in-up">
-            <Image
-              width={1000}
-              height={1000}
-              src={"/images/islk-folka.png"}
-              alt={"Bildet av Ihlen Sosiale Løpeklubb"}
-              className="w-full h-auto rounded-xl "
-            />
-          </div>
+      <main className="  text-gray-800 dark:text-gray-300">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-gray-800 dark:text-gray-300">
+          <Hero />
         </section>
-
+        <Social />
         {/* Strava-seksjon */}
         <section id="strava-section" className="py-16 ">
           <div className="flex flex-col items-center text-center mb-12">
@@ -96,13 +56,12 @@ export default function Home(): React.ReactElement {
             <p className="mt-4 text-xl text-gray-600 dark:text-gray-400 max-w-2xl">
               Følg våre aktiviteter på strava og se hvilke segmenter vi jogger.
             </p>
-            <button
-              onClick={() => setIsStravaModalOpen(true)}
-              className="mt-6 flex items-center px-6 py-3 bg-[#fc5200] text-white font-medium rounded-full shadow-lg hover:bg-[#fc5400d3] transition duration-300 cursor-pointer"
-            >
-              <FaStrava className="mr-2 h-5 w-5" />
-              Kom i gang med strava
-            </button>
+            <a href="https://www.strava.com" target="_blank">
+              <button className="mt-6 flex items-center px-6 py-3 bg-[#fc5200] text-white font-medium rounded-full shadow-lg hover:bg-[#fc5400d3] transition duration-300 cursor-pointer">
+                <FaStrava className="mr-2 h-5 w-5" />
+                Kom i gang med strava
+              </button>
+            </a>
           </div>
 
           <Strava />

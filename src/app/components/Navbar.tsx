@@ -8,13 +8,11 @@ import HamburgerIcon from "./hamburger/HamburgerIcon";
 import HamburgerMenu from "./hamburger/HamburgerMenu";
 import router from "next/router";
 
-// Navbar-komponenten fungerer som hovednavigasjonslinjen
-// og håndterer mobilmeny, overganger og mørk modus.
 export default function Navbar() {
   const pathname = usePathname();
-
   const [isDark, setIsDark] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   const navLinks = [
     { label: "Hjem", href: "/" },
@@ -23,9 +21,13 @@ export default function Navbar() {
     { label: "Blogg", href: "/blog" },
   ];
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const handleNavigation = (e: MouseEvent, path: string) => {
     if (path === pathname) {
@@ -33,18 +35,15 @@ export default function Navbar() {
       return;
     }
     router.push(path, {});
-    // Lukk mobilmenyen etter at en lenke er klikket
     setIsMenuOpen(false);
   };
 
-  // Håndterer lagring av tema i lokal lagring og sjekker foretrukket tema
   useEffect(() => {
     const saved = localStorage.getItem("theme");
     const prefersDark = window.matchMedia(
       "(prefers-color-scheme: dark)"
     ).matches;
     const darkMode = saved === "dark" || (!saved && prefersDark);
-
     setIsDark(darkMode);
     document.documentElement.classList.toggle("dark", darkMode);
   }, []);
@@ -63,29 +62,38 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-30 backdrop-blur-md ">
-        <div className="max-w-7xl mx-auto flex items-center justify-between py-4 px-4 md:px-8">
+      <header
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+          scrolled
+            ? "bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg shadow-md"
+            : "bg-transparent"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto flex items-center justify-between py-5 px-6">
           {/* Logo */}
-          <div>
-            <Link
-              onClick={(e) => handleNavigation(e, "/")}
-              href={"/"}
-              aria-label="Hjem"
-            >
-              <Image width={50} height={50} src={"logo.svg"} alt="Logo" />
-            </Link>
-          </div>
+          <Link
+            onClick={(e) => handleNavigation(e, "/")}
+            href="/"
+            aria-label="Hjem"
+            className="flex items-center gap-2"
+          >
+            <Image width={50} height={50} src="logo.svg" alt="Logo" priority />
+          </Link>
 
           <div className="flex items-center gap-4">
-            {/* Desktop-navigasjonslenker */}
-            <nav className="hidden lg:flex items-center gap-6 text-base font-semibold text-gray-700 dark:text-gray-300">
+            {/* Desktop navigation */}
+            <nav className="hidden lg:flex items-center gap-8 text-base font-medium">
               {navLinks.map((link) => (
                 <Link
                   key={link.label}
                   href={link.href}
                   onClick={(e) => handleNavigation(e, link.href)}
-                  className={`hover:text-[#FC5200] transition-colors duration-200 ${
-                    pathname === link.href ? "text-[#FC5200]" : ""
+                  className={`transition-colors duration-200 ${
+                    pathname === link.href
+                      ? "text-[#FC5200]"
+                      : scrolled
+                        ? "text-gray-800 dark:text-gray-200 hover:text-[#FC5200]"
+                        : "text-gray-800 dark:text-gray-200 hover:text-[#FC5200]"
                   }`}
                 >
                   {link.label}
@@ -93,49 +101,52 @@ export default function Navbar() {
               ))}
             </nav>
 
-            {/* Veksle mellom lys og mørk modus */}
+            {/* Dark mode toggle */}
             <button
               aria-label="Toggle Dark Mode"
               onClick={toggleDarkMode}
-              className="p-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition cursor-pointer"
-              title="Toggle Dark Mode"
+              className={`relative w-14 h-7 flex items-center rounded-full transition-colors duration-300 cursor-pointer
+    ${isDark ? "bg-gray-700" : "bg-gray-300"}`}
             >
-              {isDark ? (
-                // Sol-ikon
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-yellow-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 3v1m0 16v1m8.66-10h-1M4.34 12h-1m15.07 4.24l-.71-.71M6.34 6.34l-.71-.71m12.02 12.02l-.71-.71M6.34 17.66l-.71-.71M12 7a5 5 0 100 10 5 5 0 000-10z"
-                  />
-                </svg>
-              ) : (
-                // Måne-ikon
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-gray-800 dark:text-gray-200"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"
-                  />
-                </svg>
-              )}
+              <span
+                className={`absolute left-1 w-5 h-5 rounded-full transition-all duration-300 transform flex items-center justify-center
+      ${isDark ? "translate-x-7 bg-yellow-400 text-gray-900" : "bg-gray-800 text-yellow-400"}`}
+              >
+                {isDark ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-3.5 w-3.5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 3v1m0 16v1m8.66-10h-1M4.34 12h-1m15.07 4.24l-.71-.71M6.34 6.34l-.71-.71m12.02 12.02l-.71-.71M6.34 17.66l-.71-.71M12 7a5 5 0 100 10 5 5 0 000-10z"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-3.5 w-3.5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"
+                    />
+                  </svg>
+                )}
+              </span>
             </button>
 
-            {/* Hamburger-ikon for mobil - skjult på store skjermer */}
+            {/* Mobile menu button */}
             <div className="lg:hidden">
               <HamburgerIcon toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
             </div>
@@ -143,7 +154,7 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Hamburgermeny for mobil - skjult på store skjermer */}
+      {/* Mobile menu */}
       <div className="lg:hidden">
         <HamburgerMenu
           navLinks={navLinks}

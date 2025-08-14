@@ -27,11 +27,11 @@ const HamburgerIcon: FC<HamburgerIconProps> = ({
       aria-label="Toggle menu"
     >
       {/* Container for de animerte linjene */}
-      <div className="flex flex-col justify-between w-[35px] h-[25px] transform transition-all duration-300 ease-in-out">
+      <div className="flex flex-col justify-between w-[25px] h-[20px] transform transition-all duration-300 ease-in-out">
         {/* Første linje */}
         <div
           className={`h-1 w-full bg-[#FC5200] rounded-lg transition-all duration-300 ease-in-out ${
-            isMenuOpen ? "rotate-45 translate-y-[11px] translate-x-0" : ""
+            isMenuOpen ? "rotate-45 translate-y-[8px] translate-x-0" : ""
           }`}
         ></div>
         {/* Andre linje (midten) */}
@@ -43,7 +43,7 @@ const HamburgerIcon: FC<HamburgerIconProps> = ({
         {/* Tredje linje */}
         <div
           className={`h-1 w-full bg-[#FC5200] rounded-lg transition-all duration-300 ease-in-out ${
-            isMenuOpen ? "-rotate-45 -translate-y-[10px] translate-x-0" : ""
+            isMenuOpen ? "-rotate-45 -translate-y-[8px] translate-x-0" : ""
           }`}
         ></div>
       </div>

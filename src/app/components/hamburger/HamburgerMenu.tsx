@@ -33,7 +33,7 @@ export default function HamburgerMenu({
       {/* Den glidende menyen */}
       <div
         className={`fixed right-0 w-full md:w-80 h-full bg-[#F2F2F2] dark:bg-[#121212] shadow-2xl transform transition-transform duration-500 ease-in-out z-50  ${
-          isOpen ? "translate-y-0" : "translate-y-full"
+          isOpen ? "translate-y-20" : "translate-y-full"
         }`}
       >
         <div className="p-6 flex flex-col space-y-6 h-full">

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist_Mono, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 // Initialize fonts
 const geistMono = Geist_Mono({
@@ -35,7 +36,7 @@ export default function RootLayout({
         The `flex-col` and `min-h-screen` classes ensure the footer is pushed to the bottom.
       */}
       <body
-        className={`${robotomono.className} ${geistMono.variable} antialiased bg-[#F2F2F2] dark:bg-[#121212] transition-all duration-500 flex flex-col min-h-screen`}
+        className={`${robotomono.className} ${geistMono.variable} antialiased bg-[#F2F2F2] dark:bg-gray-900 transition-all duration-500 flex flex-col min-h-screen`}
       >
         <main>
           {/*
@@ -43,21 +44,14 @@ export default function RootLayout({
             The `container` class centers the content, and `mx-auto` handles the centering.
             The `px-4 sm:px-6 lg:px-8` classes provide responsive padding for different screen sizes.
           */}
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className=" mx-auto ">
             <Navbar />
             {children}
+            <Footer />
           </div>
         </main>
 
         {/* The footer is outside the main content area, allowing the main content to grow and push it down */}
-        <footer className="py-6 text-center text-gray-500 dark:text-gray-400 text-sm border-t border-gray-200 dark:border-gray-700 mt-12">
-          <div className="container mx-auto px-4">
-            <p>
-              © {new Date().getFullYear()} Ihlen sosiale løpeklubb. Alle
-              rettigheter reservert.
-            </p>
-          </div>
-        </footer>
       </body>
     </html>
   );
