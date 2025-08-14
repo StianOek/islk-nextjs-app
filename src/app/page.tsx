@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import Image from "next/image";
 import { FaStrava } from "react-icons/fa"; // Bruker react-icons for Strava-logoen
-import Segments from "./components/Segments";
+import Strava from "./components/strava/Strava";
 
 // Registrer GSAP-plugin for å bruke det med React
 gsap.registerPlugin(useGSAP);
@@ -98,14 +98,14 @@ export default function Home(): React.ReactElement {
             </p>
             <button
               onClick={() => setIsStravaModalOpen(true)}
-              className="mt-6 flex items-center px-6 py-3 bg-[#fc5200] text-white font-medium rounded-full shadow-lg hover:bg-[#fc5400d3] transition duration-300"
+              className="mt-6 flex items-center px-6 py-3 bg-[#fc5200] text-white font-medium rounded-full shadow-lg hover:bg-[#fc5400d3] transition duration-300 cursor-pointer"
             >
               <FaStrava className="mr-2 h-5 w-5" />
-              Koble til Strava
+              Kom i gang med strava
             </button>
           </div>
 
-          <Segments />
+          <Strava />
         </section>
       </main>
 
