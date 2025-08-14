@@ -2,8 +2,9 @@
 
 import { StravaSegment } from "@/app/types/strava_types";
 
-import { SegmentMap } from "../SegmentMap";
 import SegmentStats from "./SegmentsStats";
+import { SegmentMap } from "./SegmentMap";
+import { FaStrava } from "react-icons/fa";
 
 interface RundenCardProps {
   segment: StravaSegment;
@@ -11,9 +12,9 @@ interface RundenCardProps {
 
 export default function RundenCard({ segment }: RundenCardProps) {
   return (
-    <section className="w-full bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden flex flex-col md:flex-row p-6 gap-6">
+    <section className="w-full bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden flex flex-col md:flex-row px-6 py-10 gap-6">
       {/* Info */}
-      <div className="flex-1 flex flex-col justify-between">
+      <div className="flex-1 flex flex-col justify-between ">
         <div>
           <h2 className="text-3xl font-bold text-[#FC5200] mb-2 truncate">
             {segment.name}
@@ -24,9 +25,20 @@ export default function RundenCard({ segment }: RundenCardProps) {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 gap-3 text-sm text-center">
-          <SegmentStats segment={segment} />
-        </div>
+        <SegmentStats segment={segment} />
+
+        {/* Link to Strava */}
+        <a
+          href={`https://www.strava.com/segments/${segment.id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 md:mt-0 "
+        >
+          <button className="mt-6 flex items-center justify-center w-full sm:justify-start sm:w-auto px-4 py-2 bg-[#fc5200] text-white rounded-full  shadow-lg hover:bg-[#fc5400d3] transition duration-300 cursor-pointer">
+            <FaStrava className="mr-2 h-5 w-5" />
+            Segment
+          </button>
+        </a>
       </div>
 
       {/* Interactive map */}

@@ -27,7 +27,7 @@ const SegmentMap = dynamic(
         return (
           <MapContainer
             bounds={points}
-            style={{ width: "100%", height: "200px" }}
+            style={{ width: "100%", height: "300px" }}
             className="rounded-xl z-10"
             boundsOptions={{ padding: [50, 50] }}
           >

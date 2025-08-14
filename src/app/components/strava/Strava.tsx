@@ -8,7 +8,7 @@ import {
 import { useState, useEffect } from "react";
 import ClubActivitiesGrid from "./ClubActivitiesGrid";
 import ClubCard from "./ClubCard";
-import SegmentsGrid from "./SegmentsGrid";
+import SegmentsGrid from "./segments/SegmentsGrid";
 import RundenCard from "./segments/RundenCard";
 
 export default function StravaPage() {
@@ -44,11 +44,14 @@ export default function StravaPage() {
       {club && <ClubCard club={club} />}
       <ClubActivitiesGrid activities={activities} />
 
-      {/* Feature Runden at top */}
-      {runden && <RundenCard segment={runden} />}
+      <section className="w-full flex flex-col gap-4">
+        <h3 className="text-lg font-bold  text-[#FC5200] dark:text-[#FC5200]">
+          Segmenter
+        </h3>
+        {runden && <RundenCard segment={runden} />}
 
-      {/* Horizontal scroll grid for all other segments */}
-      {otherSegments.length > 0 && <SegmentsGrid segments={otherSegments} />}
+        {otherSegments.length > 0 && <SegmentsGrid segments={otherSegments} />}
+      </section>
     </main>
   );
 }
