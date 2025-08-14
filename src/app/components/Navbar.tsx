@@ -38,15 +38,18 @@ export default function Navbar() {
   };
 
   // Håndterer lagring av tema i lokal lagring og sjekker foretrukket tema
+  // Håndterer lagring av tema i lokal lagring og sjekker foretrukket tema
   useEffect(() => {
-    const saved = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
-    const darkMode = saved === "dark" || (!saved && prefersDark);
-
-    setIsDark(darkMode);
-    document.documentElement.classList.toggle("dark", darkMode);
+    // Check if window is defined before accessing it
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+      const darkMode = saved === "dark" || (!saved && prefersDark);
+      setIsDark(darkMode);
+      document.documentElement.classList.toggle("dark", darkMode);
+    }
   }, []);
 
   const toggleDarkMode = () => {
