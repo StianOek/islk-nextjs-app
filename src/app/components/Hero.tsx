@@ -20,7 +20,7 @@ export default function Hero() {
                   SOSIALE
                 </h1>
               </div>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-[#FC5200]">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-orange-600">
                 LØPEKLUBB
               </h1>
             </div>
@@ -33,7 +33,7 @@ export default function Hero() {
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center lg:justify-start">
               <a
                 href="#strava-section"
-                className="text-[#FC5200] px-6 py-4 rounded-full text-lg font-bold border-2 border-[#FC5200] hover:bg-[#FC5200] hover:text-white transition-colors duration-300"
+                className="text-orange-600 px-6 py-4 rounded-full text-lg font-bold border-2 border-orange-600 hover:bg-orange-600 hover:text-white transition-colors duration-300"
               >
                 SE VÅRE LØPETURER
               </a>

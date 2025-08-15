@@ -16,7 +16,7 @@ export default function RundenCard({ segment }: RundenCardProps) {
       {/* Info */}
       <div className="flex-1 flex flex-col justify-between ">
         <div>
-          <h2 className="text-3xl font-bold text-[#FC5200] mb-2 truncate">
+          <h2 className="text-3xl font-bold text-orange-600 mb-2 truncate">
             {segment.name}
           </h2>
           <p className="text-gray-500 dark:text-gray-400 mb-4">
@@ -34,7 +34,7 @@ export default function RundenCard({ segment }: RundenCardProps) {
           rel="noopener noreferrer"
           className="mt-6 md:mt-0 "
         >
-          <button className="mt-6 flex items-center justify-center w-full sm:justify-start sm:w-auto px-4 py-2 bg-[#fc5200] text-white rounded-full  shadow-lg hover:bg-[#fc5400d3] transition duration-300 cursor-pointer">
+          <button className="mt-6 flex items-center justify-center w-full sm:justify-start sm:w-auto px-4 py-2 bg-orange-600 text-white rounded-full  shadow-lg hover:bg-orange-700 transition duration-300 cursor-pointer">
             <FaStrava className="mr-2 h-5 w-5" />
             Segment
           </button>

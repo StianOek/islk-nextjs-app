@@ -25,7 +25,7 @@ export default function ClubActivitiesGrid({
 
   return (
     <section className="w-full mt-4" aria-label="Recent Club Activities">
-      <h3 className="text-lg font-bold mb-3 text-[#FC5200] dark:text-[#FC5200]">
+      <h3 className="text-lg font-bold mb-3 text-orange-600 dark:text-orange-600">
         Siste aktiviteter
       </h3>
 
@@ -34,7 +34,7 @@ export default function ClubActivitiesGrid({
         {activities.map((act, i) => (
           <div
             key={`${act.name}-${i}`}
-            className="flex-shrink-0 snap-start bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 w-64 p-4 flex flex-col gap-2 border border-gray-100 dark:border-gray-700 hover:border-[#FC5200]"
+            className="flex-shrink-0 snap-start bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 w-64 p-4 flex flex-col gap-2 border border-gray-100 dark:border-gray-700 hover:border-orange-600"
           >
             <h4 className="text-base font-semibold truncate">{act.name}</h4>
             <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
@@ -60,7 +60,7 @@ export default function ClubActivitiesGrid({
               </div>
             </div>
 
-            <span className="text-[10px] uppercase tracking-wide text-[#FC5200] mt-auto self-end bg-[#FC5200]/10 px-2 py-0.5 rounded-full">
+            <span className="text-[10px] uppercase tracking-wide text-orange-600 mt-auto self-end bg-orange-600/10 px-2 py-0.5 rounded-full">
               {act.sport_type}
             </span>
           </div>

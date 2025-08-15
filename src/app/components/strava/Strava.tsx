@@ -45,7 +45,7 @@ export default function StravaPage() {
       <ClubActivitiesGrid activities={activities} />
 
       <section className="w-full flex flex-col gap-4">
-        <h3 className="text-lg font-bold  text-[#FC5200] dark:text-[#FC5200]">
+        <h3 className="text-lg font-bold  text-orange-600 dark:text-orange-600">
           Segmenter
         </h3>
         {runden && <RundenCard segment={runden} />}
