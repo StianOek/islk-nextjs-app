@@ -52,7 +52,7 @@ export default function OmOssPage() {
             </p>
             <button
               onClick={handleOpenModal}
-              className="px-6 py-3 bg-[#FC5200] text-white font-semibold rounded-full shadow-md hover:shadow-lg hover:bg-[#e64a00] transition duration-300"
+              className="px-6 py-3 bg-[#FC5200] text-white font-semibold rounded-full shadow-md hover:shadow-lg hover:bg-[#e64a00] transition duration-300 cursor-pointer"
             >
               Bli med på neste trening!
             </button>
@@ -149,7 +149,7 @@ export default function OmOssPage() {
             </p>
             <button
               onClick={handleOpenModal}
-              className="px-8 py-4 bg-white text-[#FC5200] font-semibold rounded-full shadow-lg hover:bg-gray-100 transition duration-300"
+              className="px-8 py-4 bg-white text-[#FC5200] font-semibold rounded-full shadow-lg hover:bg-gray-100 transition duration-300 cursor-pointer"
             >
               Se møtested
             </button>
@@ -191,8 +191,9 @@ export default function OmOssPage() {
                 Møtested
               </h3>
               <p className="text-lg text-gray-700 dark:text-gray-300">
-                Oppmøte på Tovengtunet utenfor nr. 49 hver mandag kl 18:30. Vi
-                ses der! 🙂
+                Vi trener hver mandag kl. 17:30. Oppmøte er ved lekeplassen på
+                Tovengtunet (Tovengveien 21 i GPS-en, så finner du fram). Kom
+                som du er – enten du løper, går eller triller! 🙂
               </p>
             </div>
           </div>
