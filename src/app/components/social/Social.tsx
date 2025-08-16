@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const Social = (): ReactElement => {
   return (
-    <section className="relative w-full py-16 sm:py-20 bg-gradient-to-b from-[#F2F2F2] via-[#FFF0E0] to-[#F2F2F2] dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 overflow-hidden transition-colors duration-500">
+    <section className="relative w-full py-16 sm:py-20 bg-gradient-to-b from-[#F2F2F2] via-[#FFF0E0] to-[#F2F2F2] dark:from-gray-950 dark:via-gray-800 dark:to-gray-950 overflow-hidden transition-colors duration-500">
       {/* Dekorative elementer */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
         <div className="absolute top-2 left-10 w-40 h-40 sm:w-60 sm:h-60 rounded-full animate-spin-slow bg-orange-600/10 dark:bg-orange-600/10"></div>

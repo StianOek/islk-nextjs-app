@@ -1,12 +1,11 @@
 "use client";
 
-import { MouseEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import HamburgerIcon from "./hamburger/HamburgerIcon";
 import HamburgerMenu from "./hamburger/HamburgerMenu";
-import router from "next/router";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -27,17 +26,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
-  const handleNavigation = (e: MouseEvent, path: string) => {
-    if (path === pathname) {
-      e.preventDefault();
-      return;
-    }
-    router.push(path, {});
-    setIsMenuOpen(false);
-  };
-
   useEffect(() => {
     const saved = localStorage.getItem("theme");
     const prefersDark = window.matchMedia(
@@ -47,6 +35,8 @@ export default function Navbar() {
     setIsDark(darkMode);
     document.documentElement.classList.toggle("dark", darkMode);
   }, []);
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const toggleDarkMode = () => {
     if (isDark) {
@@ -65,19 +55,20 @@ export default function Navbar() {
       <header
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
           scrolled
-            ? "bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg shadow-md"
+            ? "bg-white/80 dark:bg-gray-950/60 backdrop-blur-lg shadow-md"
             : "bg-transparent"
         }`}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between py-5 px-6">
           {/* Logo */}
-          <Link
-            onClick={(e) => handleNavigation(e, "/")}
-            href="/"
-            aria-label="Hjem"
-            className="flex items-center gap-2"
-          >
-            <Image width={50} height={50} src="logo.svg" alt="Logo" priority />
+          <Link href="/" aria-label="Hjem" className="flex items-center gap-2">
+            <Image
+              width={50}
+              height={50}
+              src={isDark ? "logo-dark.svg" : "logo.svg"}
+              alt="Logo"
+              priority
+            />
           </Link>
 
           <div className="flex items-center gap-4">
@@ -87,13 +78,12 @@ export default function Navbar() {
                 <Link
                   key={link.label}
                   href={link.href}
-                  onClick={(e) => handleNavigation(e, link.href)}
                   className={`transition-colors duration-200 ${
                     pathname === link.href
-                      ? "text-[#FC5200]"
+                      ? "text-orange-600"
                       : scrolled
-                        ? "text-gray-800 dark:text-gray-200 hover:text-[#FC5200]"
-                        : "text-gray-800 dark:text-gray-200 hover:text-[#FC5200]"
+                        ? "text-gray-800 dark:text-gray-200 hover:text-orange-600"
+                        : "text-gray-800 dark:text-gray-200 hover:text-orange-600"
                   }`}
                 >
                   {link.label}
@@ -106,11 +96,11 @@ export default function Navbar() {
               aria-label="Toggle Dark Mode"
               onClick={toggleDarkMode}
               className={`relative w-14 h-7 flex items-center rounded-full transition-colors duration-300 cursor-pointer
-    ${isDark ? "bg-gray-700" : "bg-gray-300"}`}
+                ${isDark ? "bg-gray-700" : "bg-gray-300"}`}
             >
               <span
                 className={`absolute left-1 w-5 h-5 rounded-full transition-all duration-300 transform flex items-center justify-center
-      ${isDark ? "translate-x-7 bg-yellow-400 text-gray-900" : "bg-gray-800 text-yellow-400"}`}
+                  ${isDark ? "translate-x-7 bg-yellow-400 text-gray-900" : "bg-gray-800 text-yellow-400"}`}
               >
                 {isDark ? (
                   <svg

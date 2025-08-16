@@ -1,13 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
-import { FaArrowRight } from "react-icons/fa";
+import { FaArrowRight, FaMapMarkedAlt, FaInfoCircle } from "react-icons/fa";
 
 export default function EventDetailPage() {
-  // Hardkodet data for Ihlen Rundt 2025.
-  // params.slug brukes ikke, men komponenten beholder strukturen for å passe inn i ruten
   const event = {
     title: "Ihlen Rundt 2025",
-    date: "2025-05-18",
+    date: "2025-09-07",
     description: [
       "Bli med på **Ihlen Rundt 2025** – et sosialt og uhøytidelig løp i Askim! Dette er et 4 km lavterskelløp uten tidtaking, perfekt for både mosjonister og turgåere. Alle som deltar, får medalje (sponset av Elektrotjenesten)!",
       "Dette er et lavterskelarrangement hvor det viktigste er å ha det gøy, være aktiv og nyte den sosiale stemningen. Ta med venner og familie – vi gleder oss til å se deg på startstreken!",
@@ -19,9 +17,7 @@ export default function EventDetailPage() {
       content: [
         "4 km-runden følger det vi liker å kalle «Ihlenrunden»:",
         "Start ved Kiwi Hurrahølet, opp forbi Steinerskolen, mot Krosby, videre innover mot rundkjøringen ved Romskollen, forbi Shuckertlinna, og ned til mål ved Kiwi.",
-        "Løypekart og løypeprofil for 4km-runden kan dere finne her:",
         "Barneløpet (500 m) går fra krysset opp mot Rom skole og ned til Kiwi.",
-        "Løypekart og løypeprofil for barneløpet kan dere finne her:",
       ],
       links: [
         {
@@ -69,29 +65,37 @@ export default function EventDetailPage() {
   };
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
+    <div className=" dark:bg-gray-950 text-gray-900 dark:text-gray-100 min-h-screen">
       <main className="container mx-auto p-4 md:p-8">
-        <header className="py-8 text-center md:py-12">
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[#FC5200] to-orange-400">
-            {event.title}
-          </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400 md:text-xl font-light mb-8">
-            Dato: {new Date(event.date).toLocaleDateString("nb-NO")}
-          </p>
-          <div className="relative w-2xl h-full md:h-96 rounded-xl overflow-hidden shadow-xl mx-auto">
-            <Image
-              src="/images/ihlen_runt.webp"
-              alt="Bilde av et løp"
-              fill
-              className="object-cover"
-            />
+        {/* Hero */}
+        <header className="relative w-full h-72 md:h-[420px] rounded-2xl overflow-hidden shadow-xl mb-12">
+          <Image
+            src="/images/ihlen_runt.webp"
+            alt="Bilde av et løp"
+            fill
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-orange-600/20 via-black/20 to-transparent" />
+          <div className="absolute bottom-6 left-6">
+            <h1 className="text-3xl md:text-5xl font-extrabold text-white drop-shadow-lg">
+              {event.title}
+            </h1>
+            <span className="inline-block mt-3 bg-[#FC5200] text-white text-sm font-semibold px-4 py-2 rounded-full shadow-md">
+              {new Date(event.date).toLocaleDateString("nb-NO", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </span>
           </div>
         </header>
 
-        <section className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 mb-8 mt-12">
+        {/* Description */}
+        <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 md:p-10 mb-10 animate-fade-in-up">
           <div className="space-y-6">
-            {event.description.map((p, index) => (
-              <p key={index} className="text-lg leading-relaxed">
+            {event.description.map((p, i) => (
+              <p key={i} className="text-lg leading-relaxed">
                 {p}
               </p>
             ))}
@@ -101,54 +105,56 @@ export default function EventDetailPage() {
                 href={event.registrationLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-6 inline-flex items-center px-6 py-3 border border-transparent text-base font-bold rounded-lg shadow-sm text-white bg-[#FC5200] hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FC5200] transition-colors duration-300"
+                className="mt-6 inline-flex items-center px-8 py-3 text-base font-bold rounded-xl shadow-md text-white bg-gradient-to-r from-[#FC5200] to-purple-600 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FC5200] transition-all duration-300 hover:scale-105"
               >
-                Påmelding gjøres her
-                <FaArrowRight
-                  className="ml-2 -mr-1 h-5 w-5"
-                  aria-hidden="true"
-                />
+                Meld deg på nå
+                <FaArrowRight className="ml-3 h-5 w-5" />
               </Link>
             )}
           </div>
         </section>
 
+        {/* Split cards */}
         <section className="grid md:grid-cols-2 gap-8">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:p-8">
-            <h2 className="text-2xl font-bold mb-4 text-[#FC5200]">
-              {event.courseDetails.title}
+          {/* Løype */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-24 h-24 bg-[#FC5200]/10 rounded-bl-full" />
+            <h2 className="flex items-center text-2xl font-bold mb-4 text-[#FC5200]">
+              <FaMapMarkedAlt className="mr-2" /> {event.courseDetails.title}
             </h2>
             <div className="space-y-4 text-gray-700 dark:text-gray-300">
-              {event.courseDetails.content.map((p, index) => (
-                <p key={index}>{p}</p>
+              {event.courseDetails.content.map((p, i) => (
+                <p key={i}>{p}</p>
               ))}
-              <div className="space-y-2">
-                {event.courseDetails.links.map((link, index) => (
-                  <p key={index}>
-                    <Link
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#FC5200] hover:underline"
-                    >
-                      {link.text}
-                    </Link>
-                  </p>
+              <div className="mt-4 flex flex-col space-y-2">
+                {event.courseDetails.links.map((link, i) => (
+                  <Link
+                    key={i}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#FC5200] hover:underline"
+                  >
+                    {link.text}
+                  </Link>
                 ))}
               </div>
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:p-8">
-            <h2 className="text-2xl font-bold mb-4 text-[#FC5200]">
-              {event.practicalInfo.title}
+
+          {/* Praktisk info */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-24 h-24 bg-purple-600/10 rounded-br-full" />
+            <h2 className="flex items-center text-2xl font-bold mb-4 text-purple-600">
+              <FaInfoCircle className="mr-2" /> {event.practicalInfo.title}
             </h2>
-            <ul className="space-y-4 text-gray-700 dark:text-gray-300">
-              {event.practicalInfo.items.map((item, index) => (
-                <li key={index}>
+            <ul className="space-y-5 text-gray-700 dark:text-gray-300">
+              {event.practicalInfo.items.map((item, i) => (
+                <li key={i}>
                   <span className="font-semibold">{item.label}:</span>
-                  <ul className="list-disc list-inside ml-4 mt-1">
-                    {item.details.map((detail, detailIndex) => (
-                      <li key={detailIndex}>{detail}</li>
+                  <ul className="list-disc list-inside ml-4 mt-1 space-y-1">
+                    {item.details.map((d, di) => (
+                      <li key={di}>{d}</li>
                     ))}
                   </ul>
                 </li>

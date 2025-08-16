@@ -45,9 +45,15 @@ export default function Home(): React.ReactElement {
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-gray-800 dark:text-gray-300">
           <Hero />
         </section>
-        <Social />
+        <section>
+          <Social />
+        </section>
+
         {/* Strava-seksjon */}
-        <section id="strava-section" className="py-16 ">
+        <section
+          id="strava-section"
+          className="py-16  bg-gradient-to-b  dark:from-gray-950 dark:via-gray-800 dark:to-gray-950 overflow-hidden transition-colors duration-500"
+        >
           <div className="flex flex-col items-center text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-300  leading-tight">
               Klubb og segmenter

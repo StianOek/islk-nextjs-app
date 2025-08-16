@@ -5,7 +5,7 @@ import { FaStrava, FaInstagram, FaFacebookF } from "react-icons/fa";
 export default function Footer() {
   return (
     <footer className="relative overflow-hidden">
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#f2f2f2] to-[#FFF0E0]/60 dark:from-gray-900 dark:to-gray-800  transition-all duration-500 antialiased" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#f2f2f2] to-[#FFF0E0]/60 dark:from-gray-950 dark:to-gray-800  transition-all duration-500 antialiased" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid md:grid-cols-3 gap-8 items-start">
           <div>
@@ -22,7 +22,7 @@ export default function Footer() {
               Kontakt
             </h5>
             <ul className="space-y-1 text-gray-600 dark:text-gray-400">
-              <li>E-post: hei@ihlenlop.no</li>
+              <li>E-post: andreas@live.no</li>
               <li>Sted: Askim, Indre Østfold</li>
             </ul>
           </div>
@@ -40,14 +40,16 @@ export default function Footer() {
                 <FaStrava className="text-[#fc5200] group-hover:text-white transition-colors duration-300 text-xl" />
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/ihlensosialelopeklubb?igsh=MW01bmV2cTB1ajFjcQ=="
+                target="_blank"
                 className="group p-3 rounded-full bg-pink-500/10 dark:bg-pink-500/20 hover:bg-pink-500 transition-colors duration-300 shadow-md"
                 aria-label="Instagram"
               >
                 <FaInstagram className="text-pink-500 group-hover:text-white transition-colors duration-300 text-xl" />
               </a>
               <a
-                href="#"
+                href="https://www.facebook.com/share/1FdUz7xf8u/"
+                target="_blank"
                 className="group p-3 rounded-full bg-blue-600/10 dark:bg-blue-600/20 hover:bg-blue-600 transition-colors duration-300 shadow-md"
                 aria-label="Facebook"
               >

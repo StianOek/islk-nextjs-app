@@ -36,7 +36,7 @@ export default function RootLayout({
         The `flex-col` and `min-h-screen` classes ensure the footer is pushed to the bottom.
       */}
       <body
-        className={`${robotomono.className} ${geistMono.variable} antialiased bg-[#F2F2F2] dark:bg-gray-900 transition-all duration-500 flex flex-col min-h-screen`}
+        className={`${robotomono.className} ${geistMono.variable} antialiased bg-[#F2F2F2] dark:bg-gray-950 transition-all duration-500 flex flex-col min-h-screen`}
       >
         <main>
           {/*
