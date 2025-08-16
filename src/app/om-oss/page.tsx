@@ -59,7 +59,7 @@ export default function OmOssPage() {
           </div>
 
           {/* Bilde-del med kreativ styling */}
-          <div className="relative w-full h-72 sm:h-96 md:h-full flex justify-end items-center">
+          <div className="relative w-full h-72 sm:h-96 md:h-full flex justify-center  lg:justify-end items-center">
             <div className="relative w-72 h-72 sm:w-96 sm:h-96 rounded-[3rem] overflow-hidden shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-700 ease-out">
               <Image
                 src="/images/aboutus.png"

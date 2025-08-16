@@ -60,7 +60,7 @@ export default async function PostPage({
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-center text-white max-w-3xl px-4">
-            <h1 className="text-3xl md:text-5xl font-extrabold mb-4 animate-fade-in-up">
+            <h1 className="text-2xl md:text-5xl font-extrabold lg:mb-4 animate-fade-in-up">
               {post.title}
             </h1>
             <p className="text-gray-300 text-sm md:text-base">

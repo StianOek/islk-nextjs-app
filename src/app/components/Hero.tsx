@@ -41,7 +41,7 @@ export default function Hero() {
           </div>
 
           {/* Høyre: Bilde */}
-          <div className="w-full  max-w-sm sm:max-w-md lg:max-w-full h-auto hidden lg:block">
+          <div className="w-full  max-w-56 sm:max-w-md lg:max-w-full h-auto lg:block">
             <Image
               width={1000}
               height={1000}

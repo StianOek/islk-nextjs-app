@@ -39,13 +39,13 @@ export default async function IndexPage() {
   const posts = await client.fetch<Post[]>(POSTS_QUERY, {}, options);
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-950 text-gray-900 dark:text-gray-100 min-h-screen">
+    <div className=" dark:bg-gray-950 text-gray-900 dark:text-gray-100 min-h-screen">
       <main className="container mx-auto p-4 md:p-8">
         <header className="py-8 text-center md:py-12">
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[#FC5200] to-orange-400">
             BLOGG
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400 md:text-xl font-light">
+          <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-400 ">
             Siste nytt fra klubben, tips og triks, og inspirasjon
           </p>
         </header>
