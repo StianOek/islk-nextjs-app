@@ -22,7 +22,7 @@ export default function Footer() {
               Kontakt
             </h5>
             <ul className="space-y-1 text-gray-600 dark:text-gray-400">
-              <li>E-post: andreas@yeeeeeeehaaaa.no</li>
+              <li>E-post: andreas@testttttttt.no</li>
               <li>Sted: Askim, Indre Østfold</li>
             </ul>
           </div>
