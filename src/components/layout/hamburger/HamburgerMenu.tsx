@@ -43,9 +43,10 @@ export default function HamburgerMenu({
               <Link
                 key={item.href}
                 href={item.href}
-                className="w-full flex items-center justify-center text-gray-800 dark:text-gray-200 hover:text-[#FC5200] hover:bg-gray-100 dark:hover:bg-gray-800 transition duration-300 ease-in-out rounded-xl p-4 text-3xl font-medium"
+                className="w-full flex gap-2 items-center justify-center text-gray-800 dark:text-gray-200 hover:text-[#FC5200] hover:bg-gray-100 dark:hover:bg-gray-800 transition duration-300 ease-in-out rounded-xl p-4 text-3xl font-medium"
                 onClick={onClose}
               >
+                <span>{item.icon && <item.icon />}</span>
                 {item.label}
               </Link>
             ))}

@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import HamburgerIcon from "./hamburger/HamburgerIcon";
 import HamburgerMenu from "./hamburger/HamburgerMenu";
-
+import { MdEmojiEvents } from "react-icons/md";
 export default function Navbar() {
   const pathname = usePathname();
   const [isDark, setIsDark] = useState(false);
@@ -18,6 +18,7 @@ export default function Navbar() {
     { label: "Om oss", href: "/om-oss" },
     { label: "Arrangementer", href: "/events" },
     { label: "Blogg", href: "/blog" },
+    { label: "Ihlen rundt", href: "/ihlenrundt", icon: MdEmojiEvents },
   ];
 
   useEffect(() => {
@@ -78,7 +79,7 @@ export default function Navbar() {
                 <Link
                   key={link.label}
                   href={link.href}
-                  className={`transition-colors duration-200 ${
+                  className={`transition-colors duration-200 flex items-center gap-2 ${
                     pathname === link.href
                       ? "text-orange-600"
                       : scrolled
@@ -86,6 +87,7 @@ export default function Navbar() {
                         : "text-gray-800 dark:text-gray-200 hover:text-orange-600"
                   }`}
                 >
+                  <span>{link.icon && <link.icon />}</span>
                   {link.label}
                 </Link>
               ))}
