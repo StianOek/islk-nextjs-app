@@ -1,4 +1,4 @@
-import { getAccessToken } from "@/app/lib/strava";
+import { getAccessToken } from "@/lib/strava";
 import { NextResponse } from "next/server";
 
 export async function GET() {
