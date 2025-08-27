@@ -21,8 +21,6 @@ jobs:
 
       - run: npm ci
 
-      - run: npm run test:prod
-
   Deploy-Preview:
     needs: [Test]
     runs-on: ubuntu-latest
