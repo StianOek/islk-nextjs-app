@@ -22,7 +22,7 @@ export default function Footer() {
               Kontakt
             </h5>
             <ul className="space-y-1 text-gray-600 dark:text-gray-400">
-              <li>E-post: andreas@testttttttt.no</li>
+              <li>E-post: ihlenslk@gmail.com</li>
               <li>Sted: Askim, Indre Østfold</li>
             </ul>
           </div>
@@ -33,7 +33,8 @@ export default function Footer() {
             </h5>
             <div className="flex gap-4">
               <a
-                href="#strava-section"
+                href="https://www.strava.com/"
+                target="_blank"
                 className="group p-3 rounded-full bg-orange-600/10 dark:bg-orange-600/20 hover:bg-orange-600 dark:hover:bg-orange-600 transition-colors duration-300 shadow-md"
                 aria-label="Strava"
               >
