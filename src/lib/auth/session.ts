@@ -14,6 +14,7 @@ const sessionSchema = z.object({
   userId: z.string(),
   role: z.enum(userRoles),
   expiresAt: z.string(),
+  name: z.string(),
 });
 
 export type UserSession = z.infer<typeof sessionSchema>;

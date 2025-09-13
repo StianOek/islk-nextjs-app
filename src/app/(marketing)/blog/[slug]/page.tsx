@@ -1,39 +1,55 @@
-import { PortableText, type SanityDocument } from "next-sanity";
-import imageUrlBuilder from "@sanity/image-url";
-import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
+"use client";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { client } from "@/lib/sanity";
 import Image from "next/image";
 import { FaArrowLeft } from "react-icons/fa";
 
-const POST_QUERY = `*[_type == "post" && slug.current == $slug]`;
+interface Post {
+  id: number;
+  title: string;
+  slug: string;
+  published_at: string;
+  image_url?: string;
+  excerpt?: string;
+  body: string; // Stored as HTML or plain text
+}
 
-const { projectId, dataset } = client.config();
-const urlFor = (source: SanityImageSource) =>
-  projectId && dataset
-    ? imageUrlBuilder({ projectId, dataset }).image(source)
-    : null;
+export default function PostPage({ params }: { params: { slug: string } }) {
+  const [post, setPost] = useState<Post | null>(null);
+  const [loading, setLoading] = useState(true);
+  console.log(post);
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const res = await fetch(`/api/posts/${params.slug}`);
+        if (!res.ok) throw new Error("Post not found");
+        const data = await res.json();
+        setPost(data);
+      } catch (err) {
+        console.error(err);
+        setPost(null);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-const options = { next: { revalidate: 30 } };
+    fetchPost();
+  }, [params.slug]);
 
-export default async function PostPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const posts = await client.fetch<SanityDocument[]>(
-    POST_QUERY,
-    await params,
-    options
-  );
-  const post = posts[0];
+  if (loading) {
+    return (
+      <div className="container mx-auto min-h-screen p-8 flex items-center justify-center">
+        <p className="text-gray-500">Laster innlegget...</p>
+      </div>
+    );
+  }
 
   if (!post) {
     return (
       <main className="container mx-auto min-h-screen max-w-3xl p-8">
-        <p>Post not found.</p>
+        <p>Post ikke funnet.</p>
         <Link
-          href="/"
+          href="/blog"
           className="hover:underline flex items-center gap-2 mt-4 text-[#FC5200] font-semibold"
         >
           <FaArrowLeft /> Tilbake til blogg
@@ -42,17 +58,15 @@ export default async function PostPage({
     );
   }
 
-  const postImageUrl = post.image
-    ? urlFor(post.image)?.width(1600).height(900).url()
-    : null;
+  const formattedBody = post.body ? post.body.replace(/\n/g, "<br />") : "";
 
   return (
     <main className="bg-gray-100 dark:bg-gray-950 text-gray-900 dark:text-gray-100 min-h-screen">
       {/* Hero med bilde */}
-      {postImageUrl && (
+      {post.image_url && (
         <div className="relative w-full h-[40vh] md:h-[60vh] overflow-hidden">
           <Image
-            src={postImageUrl}
+            src={post.image_url}
             alt={post.title}
             fill
             priority
@@ -63,9 +77,10 @@ export default async function PostPage({
             <h1 className="text-2xl md:text-5xl font-extrabold lg:mb-4 animate-fade-in-up">
               {post.title}
             </h1>
+
             <p className="text-gray-300 text-sm md:text-base">
               Publisert:{" "}
-              {new Date(post.publishedAt).toLocaleDateString("nb-NO")}
+              {new Date(post.published_at).toLocaleDateString("nb-NO")}
             </p>
           </div>
         </div>
@@ -80,9 +95,11 @@ export default async function PostPage({
           <FaArrowLeft /> Tilbake til blogg
         </Link>
 
-        <div className="prose dark:prose-invert max-w-none prose-lg leading-relaxed">
-          {Array.isArray(post.body) && <PortableText value={post.body} />}
-        </div>
+        {/* Post Content */}
+        <div
+          className="prose dark:prose-invert max-w-none prose-lg leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: formattedBody }}
+        />
       </article>
 
       {/* Footer CTA */}
@@ -95,8 +112,6 @@ export default async function PostPage({
           Se alle innlegg →
         </Link>
       </footer>
-
-      {/* Keyframes for animasjoner */}
     </main>
   );
 }
