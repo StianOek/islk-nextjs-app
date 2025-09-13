@@ -3,8 +3,10 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   request: Request,
-  { params }: { params: { slug: string } }
+  context: { params: Promise<{ slug: string }> }
 ) {
+  const { slug } = await context.params; // ✅ must await
+
   const client = await pool.connect();
   try {
     const result = await client.query(
@@ -12,7 +14,7 @@ export async function GET(
        FROM posts
        WHERE slug = $1
        LIMIT 1`,
-      [params.slug]
+      [slug]
     );
 
     if (result.rows.length === 0) {
