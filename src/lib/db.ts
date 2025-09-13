@@ -26,3 +26,12 @@ export async function maybeOne<T extends Record<string, unknown>>(
   const rows = await sql(q, ...params);
   return (rows[0] as T) ?? null;
 }
+
+import { Pool } from "pg";
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL, // from Neon dashboard
+  ssl: { rejectUnauthorized: false }, // Neon requires SSL
+});
+
+export default pool;
