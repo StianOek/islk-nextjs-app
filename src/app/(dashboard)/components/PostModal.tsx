@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import React from "react";
 import { useDropzone } from "react-dropzone";
 
@@ -93,7 +94,9 @@ export default function PostModal({
           >
             <input {...getInputProps()} />
             {imageUrl ? (
-              <img
+              <Image
+                width={1000}
+                height={1000}
                 src={imageUrl}
                 alt="Preview"
                 className="mx-auto max-h-48 rounded-lg shadow-md"

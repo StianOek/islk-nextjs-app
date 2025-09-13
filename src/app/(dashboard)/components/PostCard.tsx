@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import React from "react";
 import { FiEdit2, FiTrash2, FiUser } from "react-icons/fi";
 
@@ -25,7 +26,9 @@ export default function PostCard({ post, onEdit, onDelete }: PostCardProps) {
   return (
     <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 flex flex-col   relative">
       {post.image_url && (
-        <img
+        <Image
+          width={1000}
+          height={1000}
           src={post.image_url}
           alt={post.title}
           className="w-full h-48 object-cover"
