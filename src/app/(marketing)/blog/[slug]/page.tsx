@@ -1,11 +1,11 @@
+import { use } from "react";
 import PostClient from "../PostClient";
 
-interface PostPageProps {
-  params: {
-    slug: string;
-  };
-}
-
-export default function PostPage({ params }: PostPageProps) {
-  return <PostClient slug={params.slug} />;
+export default function PostPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = use(params);
+  return <PostClient slug={slug} />;
 }
