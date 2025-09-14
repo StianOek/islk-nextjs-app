@@ -89,8 +89,13 @@ export default function PostModal({
           />
           <div
             {...getRootProps()}
-            className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition
-              ${isDragActive ? "border-orange-500 bg-orange-50" : "border-gray-300 dark:border-gray-600"}`}
+            {...getRootProps({
+              className:
+                "border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition " +
+                (isDragActive
+                  ? "border-orange-500 bg-orange-50"
+                  : "border-gray-300 dark:border-gray-600"),
+            })}
           >
             <input {...getInputProps()} />
             {imageUrl ? (

@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa";
+import useFetch from "@/hooks/useFetch";
 
 interface Post {
   id: number;
@@ -23,25 +23,7 @@ const getExcerpt = (body: string, excerpt?: string): string => {
 };
 
 export default function IndexPage() {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(true);
-  console.log(posts);
-
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const res = await fetch("/api/posts");
-        const data = await res.json();
-        setPosts(data);
-      } catch (err) {
-        console.error("Failed to load posts:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadPosts();
-  }, []);
+  const { data: posts, loading } = useFetch<Post[]>("/api/posts");
 
   if (loading) {
     return (
@@ -63,13 +45,13 @@ export default function IndexPage() {
           </p>
         </header>
 
-        {posts.length === 0 ? (
+        {posts?.length === 0 ? (
           <p className="text-center text-gray-600 dark:text-gray-400">
             Ingen innlegg enda.
           </p>
         ) : (
           <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {posts.map((post, index) => (
+            {posts?.map((post, index) => (
               <Link
                 href={`/blog/${post.slug}`}
                 key={post.id}

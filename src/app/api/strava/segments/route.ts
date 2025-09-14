@@ -22,7 +22,7 @@ export async function GET() {
 
     const segmentsData = await Promise.all(segmentPromises);
 
-    return NextResponse.json({ segments: segmentsData });
+    return NextResponse.json(segmentsData);
   } catch (err) {
     return NextResponse.json(
       { error: (err as Error).message },
