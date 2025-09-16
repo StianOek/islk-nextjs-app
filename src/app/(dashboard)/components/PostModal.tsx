@@ -1,8 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
-import { useDropzone } from "react-dropzone";
+import React, { useState, DragEvent, ChangeEvent } from "react";
 
 interface PostModalProps {
   open: boolean;
@@ -35,23 +34,44 @@ export default function PostModal({
   setImageUrl,
   handleSubmit,
 }: PostModalProps) {
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop: async (acceptedFiles: File[]) => {
-      const file = acceptedFiles[0];
-      if (!file) return;
-
-      const formData = new FormData();
-      formData.append("file", file);
-
-      const res = await fetch("/api/files", { method: "POST", body: formData });
-      const data = await res.json();
-      if (res.ok) setImageUrl(data.url);
-    },
-    accept: { "image/*": [] },
-    multiple: false,
-  });
+  const [dragActive, setDragActive] = useState(false);
 
   if (!open) return null;
+
+  const handleFiles = async (file: File) => {
+    if (!file) return;
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await fetch("/api/files", { method: "POST", body: formData });
+    const data = await res.json();
+    if (res.ok) setImageUrl(data.url);
+  };
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) handleFiles(file);
+  };
+
+  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file) handleFiles(file);
+  };
+
+  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(true);
+  };
+
+  const handleDragLeave = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -87,17 +107,26 @@ export default function PostModal({
             onChange={(e) => setBody(e.target.value)}
             className="w-full p-3 h-32 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 focus:ring-2 focus:ring-orange-500"
           />
+
+          {/* Upload Zone */}
           <div
-            {...getRootProps()}
-            {...getRootProps({
-              className:
-                "border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition " +
-                (isDragActive
-                  ? "border-orange-500 bg-orange-50"
-                  : "border-gray-300 dark:border-gray-600"),
-            })}
+            className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition ${
+              dragActive
+                ? "border-orange-500 bg-orange-50"
+                : "border-gray-300 dark:border-gray-600"
+            }`}
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onClick={() => document.getElementById("fileInput")?.click()}
           >
-            <input {...getInputProps()} />
+            <input
+              id="fileInput"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleFileChange}
+            />
             {imageUrl ? (
               <Image
                 width={1000}
@@ -108,9 +137,9 @@ export default function PostModal({
               />
             ) : (
               <p className="text-gray-500 dark:text-gray-400">
-                {isDragActive
+                {dragActive
                   ? "Drop the image here..."
-                  : "Drag & drop an image, or click to select"}
+                  : "Tap or drag & drop an image"}
               </p>
             )}
           </div>
