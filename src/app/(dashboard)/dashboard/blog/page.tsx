@@ -5,16 +5,7 @@ import gsap from "gsap";
 import PostCard from "../../components/PostCard";
 import PostModal from "../../components/PostModal";
 import ConfirmModal from "@/components/layout/modals/ConfirmModal";
-
-interface Post {
-  id: number;
-  title: string;
-  slug: string;
-  body: string;
-  image_url?: string;
-  excerpt?: string;
-  published_at: string;
-}
+import { Post } from "@/types/posts";
 
 export default function BlogDashboard() {
   const [posts, setPosts] = useState<Post[]>([]);
