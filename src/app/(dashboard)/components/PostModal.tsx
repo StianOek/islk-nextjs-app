@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState, ChangeEvent } from "react";
+import React from "react";
 
 interface PostModalProps {
   open: boolean;
@@ -34,8 +34,6 @@ export default function PostModal({
   setImageUrl,
   handleSubmit,
 }: PostModalProps) {
-  const [dragActive, setDragActive] = useState(false);
-
   if (!open) return null;
 
   const handleFiles = async (file: File) => {
@@ -46,31 +44,6 @@ export default function PostModal({
     const res = await fetch("/api/files", { method: "POST", body: formData });
     const data = await res.json();
     if (res.ok) setImageUrl(data.url);
-  };
-
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) handleFiles(file);
-  };
-
-  const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
-    const file = e.dataTransfer.files?.[0];
-    if (file) handleFiles(file);
-  };
-
-  const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragActive(true);
-  };
-
-  const handleDragLeave = (e: React.DragEvent<HTMLLabelElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
   };
 
   return (
@@ -109,40 +82,64 @@ export default function PostModal({
           />
 
           {/* Upload Zone */}
-          <label
-            htmlFor="fileInput"
-            className={`block border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition ${
-              dragActive
-                ? "border-orange-500 bg-orange-50"
-                : "border-gray-300 dark:border-gray-600"
-            }`}
-            onDrop={handleDrop}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-          >
-            <input
-              id="fileInput"
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handleFileChange}
-            />
-            {imageUrl ? (
-              <Image
-                width={1000}
-                height={1000}
-                src={imageUrl}
-                alt="Preview"
-                className="mx-auto max-h-48 rounded-lg shadow-md"
+          <div onDragOver={(e) => e.preventDefault()} className="flex gap-4">
+            <label
+              htmlFor="fileInput"
+              onDrop={(e) => {
+                e.preventDefault();
+                const files = e.dataTransfer.files;
+                if (files.length > 0) handleFiles(files[0]);
+              }}
+              className={`flex flex-col items-center justify-center w-full h-48 border-2 border-dashed rounded-lg cursor-pointer transition border-gray-300 dark:border-gray-600 `}
+            >
+              {imageUrl ? (
+                <Image
+                  src={imageUrl}
+                  alt="Preview"
+                  width={500}
+                  height={500}
+                  className="mx-auto max-h-40 rounded-lg object-contain"
+                />
+              ) : (
+                <div className="flex flex-col items-center justify-center">
+                  <svg
+                    className="w-8 h-8 mb-2 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M4 16v1a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1M12 12v9m0-9l-3 3m3-3l3 3M16 6a4 4 0 0 1-8 0 4 4 0 0 1 8 0z"
+                    />
+                  </svg>
+                  <p className="text-gray-500 text-sm">
+                    <b>Tap to upload</b> or drag an image
+                  </p>
+                </div>
+              )}
+              <input
+                id="fileInput"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+
+                  // 🔹 show preview immediately
+                  const reader = new FileReader();
+                  reader.onloadend = () => setImageUrl(reader.result as string);
+                  reader.readAsDataURL(file);
+
+                  // 🔹 also upload to server
+                  handleFiles(file);
+                }}
               />
-            ) : (
-              <p className="text-gray-500 dark:text-gray-400">
-                {dragActive
-                  ? "Drop the image here..."
-                  : "Tap or drag & drop an image"}
-              </p>
-            )}
-          </label>
+            </label>
+          </div>
 
           <button
             type="submit"
