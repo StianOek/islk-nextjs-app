@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState, DragEvent, ChangeEvent } from "react";
+import React, { useState, ChangeEvent } from "react";
 
 interface PostModalProps {
   open: boolean;
@@ -53,7 +53,7 @@ export default function PostModal({
     if (file) handleFiles(file);
   };
 
-  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
+  const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
@@ -61,13 +61,13 @@ export default function PostModal({
     if (file) handleFiles(file);
   };
 
-  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
+  const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(true);
   };
 
-  const handleDragLeave = (e: DragEvent<HTMLDivElement>) => {
+  const handleDragLeave = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
@@ -109,8 +109,9 @@ export default function PostModal({
           />
 
           {/* Upload Zone */}
-          <div
-            className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition ${
+          <label
+            htmlFor="fileInput"
+            className={`block border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition ${
               dragActive
                 ? "border-orange-500 bg-orange-50"
                 : "border-gray-300 dark:border-gray-600"
@@ -118,7 +119,6 @@ export default function PostModal({
             onDrop={handleDrop}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
-            onClick={() => document.getElementById("fileInput")?.click()}
           >
             <input
               id="fileInput"
@@ -142,7 +142,7 @@ export default function PostModal({
                   : "Tap or drag & drop an image"}
               </p>
             )}
-          </div>
+          </label>
 
           <button
             type="submit"
