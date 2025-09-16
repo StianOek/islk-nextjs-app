@@ -8,6 +8,7 @@ import { FaStrava } from "react-icons/fa"; // Bruker react-icons for Strava-logo
 import Strava from "@/components/layout/strava/Strava";
 import Hero from "@/components/layout/Hero";
 import Social from "@/components/layout/social/Social";
+import LastBlogPost from "@/components/layout/LastBlogPost";
 
 // Registrer GSAP-plugin for å bruke det med React
 gsap.registerPlugin(useGSAP);
@@ -49,7 +50,9 @@ export default function Home(): React.ReactElement {
         <section>
           <Social />
         </section>
-
+        <section>
+          <LastBlogPost />
+        </section>
         {/* Strava-seksjon */}
         <section
           id="strava-section"

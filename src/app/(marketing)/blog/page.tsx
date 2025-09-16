@@ -4,16 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa";
 import useFetch from "@/hooks/useFetch";
-
-interface Post {
-  id: number;
-  title: string;
-  slug: string;
-  published_at: string;
-  image_url?: string;
-  excerpt?: string;
-  body: string;
-}
+import { Post } from "@/types/posts";
 
 // Helper for excerpt
 const getExcerpt = (body: string, excerpt?: string): string => {
