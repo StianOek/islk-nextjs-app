@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { MdMailOutline, MdLockOutline } from "react-icons/md";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { toast, Toaster } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,6 +28,7 @@ export default function SignUpPage() {
   } = useForm<SignUpInputs>({ resolver: zodResolver(signUpSchema) });
 
   useEffect(() => {
+    redirect("/auth");
     if (cardRef.current) {
       gsap.fromTo(
         cardRef.current,
