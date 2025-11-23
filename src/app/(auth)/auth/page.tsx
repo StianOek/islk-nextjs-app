@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { signinSchema } from "@/lib/auth/validation";
+import Link from "next/link";
 
 type LoginFormInputs = z.infer<typeof signinSchema>;
 
@@ -68,9 +69,20 @@ export default function LoginPage() {
         ref={cardRef}
         className="w-full max-w-md rounded-2xl bg-gray-900/80 border border-gray-800 shadow-2xl backdrop-blur-lg p-8"
       >
-        <h1 className="text-center text-3xl font-bold text-white mb-8">
-          Sign in
-        </h1>
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-3xl font-bold text-white">
+            Sign in
+          </h1>
+          <Link
+            href="/"
+            className="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-1 cursor-pointer"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to site
+          </Link>
+        </div>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="relative">
             <MdMailOutline

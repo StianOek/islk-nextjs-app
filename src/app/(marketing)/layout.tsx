@@ -37,7 +37,7 @@ export default function LandingPageLayout({
         The `flex-col` and `min-h-screen` classes ensure the footer is pushed to the bottom.
       */}
       <body
-        className={`${robotomono.className} ${geistMono.variable} antialiased bg-[#F2F2F2] dark:bg-gray-950 transition-all duration-500 flex flex-col min-h-screen`}
+        className={`${robotomono.className} ${geistMono.variable} antialiased bg-[#FAFAFA] dark:bg-[#1A1A1A] transition-all duration-500 flex flex-col min-h-screen`}
       >
         <main>
           {/*

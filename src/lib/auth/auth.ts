@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { sql, maybeOne } from "@/lib/db";
+import { maybeOne } from "@/lib/db";
 
 import { generateSalt, hashPassword, verifyPassword } from "./crypto";
 import { Cookies, createUserSession } from "./session";
@@ -18,13 +18,12 @@ export async function signUp(
   const salt = generateSalt();
   const hashedPassword = await hashPassword(data.password, salt);
 
-  const inserted = await sql`
+  const user = await maybeOne<{ id: string; role: "admin" | "user" }>`
     INSERT INTO users (name, email, password_hash, salt)
     VALUES (${data.name}, ${data.email}, ${hashedPassword}, ${salt})
     RETURNING id, role
   `;
 
-  const user = inserted[0];
   if (!user) return "Unable to create account";
 
   // create DB session

@@ -1,8 +1,152 @@
-import SignoutButton from "@/components/ui/buttons/SignoutButton";
 import { getUserFromSession } from "@/lib/auth/session";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import pool from "@/lib/db";
+import { 
+  FiFileText, 
+  FiCalendar, 
+  FiTrendingUp, 
+  FiEye,
+  FiArrowRight,
+  FiPlus,
+  FiEdit3
+} from "react-icons/fi";
+
+interface Activity {
+  id: string;
+  type: string;
+  title: string;
+  description: string;
+  timestamp: string;
+  link: string;
+}
+
+interface Stats {
+  totalPosts: number;
+  totalEvents: number;
+  totalViews: number;
+  publishedThisMonth: number;
+  growthPercentage: number;
+}
+
+async function getStats(): Promise<Stats> {
+  try {
+    if (!pool) {
+      throw new Error("Database connection not available");
+    }
+
+    const client = await pool.connect();
+
+    try {
+      // Get total posts count
+      const postsResult = await client.query(
+        `SELECT COUNT(*) as total FROM posts`
+      );
+      const totalPosts = parseInt(postsResult.rows[0]?.total || "0");
+
+      // Get posts published this month
+      const thisMonthResult = await client.query(
+        `SELECT COUNT(*) as total 
+         FROM posts 
+         WHERE DATE_TRUNC('month', published_at) = DATE_TRUNC('month', CURRENT_DATE)`
+      );
+      const publishedThisMonth = parseInt(thisMonthResult.rows[0]?.total || "0");
+
+      // Get last month's posts for growth calculation
+      const lastMonthResult = await client.query(
+        `SELECT COUNT(*) as total 
+         FROM posts 
+         WHERE DATE_TRUNC('month', published_at) = DATE_TRUNC('month', CURRENT_DATE - INTERVAL '1 month')`
+      );
+      const lastMonthPosts = parseInt(lastMonthResult.rows[0]?.total || "0");
+
+      // Calculate growth percentage
+      let growthPercentage = 0;
+      if (lastMonthPosts > 0) {
+        growthPercentage = Math.round(
+          ((publishedThisMonth - lastMonthPosts) / lastMonthPosts) * 100
+        );
+      } else if (publishedThisMonth > 0) {
+        growthPercentage = 100;
+      }
+
+      // Get total views from analytics
+      const viewsResult = await client.query(
+        `SELECT COUNT(*) as total FROM post_views`
+      );
+      const totalViews = parseInt(viewsResult.rows[0]?.total || "0");
+
+      return {
+        totalPosts,
+        totalEvents: 0,
+        totalViews,
+        publishedThisMonth,
+        growthPercentage,
+      };
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    console.error("Error fetching stats:", error);
+    return {
+      totalPosts: 0,
+      totalEvents: 0,
+      totalViews: 0,
+      publishedThisMonth: 0,
+      growthPercentage: 0,
+    };
+  }
+}
+
+async function getRecentActivity(): Promise<Activity[]> {
+  try {
+    if (!pool) {
+      throw new Error("Database connection not available");
+    }
+
+    const client = await pool.connect();
+
+    try {
+      // Fetch recent posts (last 5)
+      const postsResult = await client.query(
+        `SELECT id, title, slug, published_at
+         FROM posts
+         ORDER BY published_at DESC
+         LIMIT 5`
+      );
+
+      // Transform posts into activity items
+      const activities = postsResult.rows.map((post) => ({
+        id: `post-${post.id}`,
+        type: "post",
+        title: "New blog post published",
+        description: `"${post.title}" was published successfully`,
+        timestamp: post.published_at,
+        link: `/dashboard/blog`,
+      }));
+
+      return activities;
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    console.error("Error fetching activity:", error);
+    return [];
+  }
+}
+
+function getTimeAgo(timestamp: string): string {
+  const now = new Date();
+  const past = new Date(timestamp);
+  const diffInSeconds = Math.floor((now.getTime() - past.getTime()) / 1000);
+
+  if (diffInSeconds < 60) return "Just now";
+  if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`;
+  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+  if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)} days ago`;
+  return past.toLocaleDateString();
+}
 
 export default async function Dashboard() {
   const cookieStore = await cookies();
@@ -11,46 +155,177 @@ export default async function Dashboard() {
     redirect("/auth");
   }
 
+  const [stats, recentActivity] = await Promise.all([
+    getStats(),
+    getRecentActivity(),
+  ]);
+
   return (
-    <div className="space-y-6">
+    <div className="max-w-7xl mx-auto space-y-6 sm:space-y-8">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Welcome back 👋</h1>
-          <p className="text-gray-600">
-            Manage your blog posts and upcoming events.
-          </p>
+      <div className="space-y-2">
+        <h1 className="text-3xl sm:text-4xl font-bold text-white">
+          Welcome back 👋
+        </h1>
+        <p className="text-base sm:text-lg text-gray-400">
+          Here&apos;s what&apos;s happening with your content today.
+        </p>
+      </div>
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+        <div className="bg-gray-900/80 rounded-2xl p-6 shadow-sm border border-gray-800 hover:shadow-md transition-shadow backdrop-blur-lg">
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-12 h-12 rounded-xl bg-blue-600/20 flex items-center justify-center">
+              <FiFileText className="h-6 w-6 text-blue-400" />
+            </div>
+            <span className="text-xs font-medium text-green-400 bg-green-500/20 px-2 py-1 rounded-full">
+              +{stats.publishedThisMonth} this month
+            </span>
+          </div>
+          <h3 className="text-2xl font-bold text-white">{stats.totalPosts}</h3>
+          <p className="text-sm text-gray-400 mt-1">Total Blog Posts</p>
         </div>
-        <SignoutButton />
+
+        <div className="bg-gray-900/80 rounded-2xl p-6 shadow-sm border border-gray-800 hover:shadow-md transition-shadow backdrop-blur-lg">
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-12 h-12 rounded-xl bg-purple-600/20 flex items-center justify-center">
+              <FiCalendar className="h-6 w-6 text-purple-400" />
+            </div>
+          </div>
+          <h3 className="text-2xl font-bold text-white">{stats.totalEvents}</h3>
+          <p className="text-sm text-gray-400 mt-1">Upcoming Events</p>
+        </div>
+
+        <div className="bg-gray-900/80 rounded-2xl p-6 shadow-sm border border-gray-800 hover:shadow-md transition-shadow backdrop-blur-lg">
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-12 h-12 rounded-xl bg-orange-600/20 flex items-center justify-center">
+              <FiEye className="h-6 w-6 text-orange-400" />
+            </div>
+          </div>
+          <h3 className="text-2xl font-bold text-white">{stats.totalViews.toLocaleString()}</h3>
+          <p className="text-sm text-gray-400 mt-1">Total Views</p>
+        </div>
+
+        <div className="bg-gray-900/80 rounded-2xl p-6 shadow-sm border border-gray-800 hover:shadow-md transition-shadow backdrop-blur-lg">
+          <div className="flex items-center justify-between mb-4">
+            <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+              stats.growthPercentage >= 0 ? "bg-green-600/20" : "bg-red-600/20"
+            }`}>
+              <FiTrendingUp className={`h-6 w-6 ${
+                stats.growthPercentage >= 0 ? "text-green-400" : "text-red-400"
+              }`} />
+            </div>
+          </div>
+          <h3 className={`text-2xl font-bold ${
+            stats.growthPercentage >= 0 ? "text-white" : "text-red-400"
+          }`}>
+            {stats.growthPercentage > 0 ? "+" : ""}{stats.growthPercentage}%
+          </h3>
+          <p className="text-sm text-gray-400 mt-1">Growth This Month</p>
+        </div>
       </div>
 
       {/* Quick Actions */}
-      <div className="grid md:grid-cols-2 gap-6">
-        <Link
-          href="/dashboard/blog"
-          className="bg-white rounded-2xl p-6 shadow hover:shadow-md transition flex flex-col justify-between"
-        >
-          <div>
-            <h2 className="text-xl font-semibold text-gray-800">Blog Posts</h2>
-            <p className="text-gray-600 mt-2">
-              Create, edit, and manage all your blog posts.
-            </p>
+      <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
+        <div className="bg-indigo-600 rounded-2xl p-6 sm:p-8 text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] duration-200">
+          <div className="flex items-start justify-between mb-4 sm:mb-6">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+              <FiFileText className="h-6 w-6 sm:h-7 sm:w-7" />
+            </div>
+            <FiPlus className="h-5 w-5 sm:h-6 sm:w-6 opacity-80" />
           </div>
-          <div className="mt-4 text-blue-600 font-medium">Go to Blog →</div>
-        </Link>
+          <h2 className="text-xl sm:text-2xl font-bold mb-2">Blog Posts</h2>
+          <p className="text-indigo-100 mb-4 sm:mb-6 text-sm sm:text-base">
+            Create, edit, and manage all your blog posts. Share your stories with the world.
+          </p>
+          <Link
+            href="/dashboard/blog"
+            className="inline-flex items-center gap-2 bg-white text-indigo-600 px-5 py-2.5 sm:px-6 sm:py-3 rounded-xl font-semibold hover:bg-indigo-50 transition-colors group text-sm sm:text-base"
+          >
+            <span>Manage Posts</span>
+            <FiArrowRight className="h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
 
-        <Link
-          href="/dashboard/events"
-          className="bg-white rounded-2xl p-6 shadow hover:shadow-md transition flex flex-col justify-between"
-        >
-          <div>
-            <h2 className="text-xl font-semibold text-gray-800">Events</h2>
-            <p className="text-gray-600 mt-2">
-              Organize and track your upcoming events.
-            </p>
+        <div className="bg-indigo-600 rounded-2xl p-6 sm:p-8 text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] duration-200">
+          <div className="flex items-start justify-between mb-4 sm:mb-6">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+              <FiCalendar className="h-6 w-6 sm:h-7 sm:w-7" />
+            </div>
+            <FiPlus className="h-5 w-5 sm:h-6 sm:w-6 opacity-80" />
           </div>
-          <div className="mt-4 text-blue-600 font-medium">Go to Events →</div>
-        </Link>
+          <h2 className="text-xl sm:text-2xl font-bold mb-2">Events</h2>
+          <p className="text-indigo-100 mb-4 sm:mb-6 text-sm sm:text-base">
+            Organize and track your upcoming events. Keep your community engaged.
+          </p>
+          <Link
+            href="/dashboard/events"
+            className="inline-flex items-center gap-2 bg-white text-indigo-600 px-5 py-2.5 sm:px-6 sm:py-3 rounded-xl font-semibold hover:bg-indigo-50 transition-colors group text-sm sm:text-base"
+          >
+            <span>Manage Events</span>
+            <FiArrowRight className="h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
+      </div>
+
+      {/* Recent Activity */}
+      <div className="bg-gray-900/80 rounded-2xl p-5 sm:p-6 lg:p-8 shadow-sm border border-gray-800 backdrop-blur-lg">
+        <div className="flex items-center justify-between mb-4 sm:mb-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-white">Recent Activity</h2>
+          <Link 
+            href="/dashboard/blog" 
+            className="text-xs sm:text-sm font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-1 group"
+          >
+            <span className="hidden sm:inline">View all</span>
+            <span className="sm:hidden">All</span>
+            <FiArrowRight className="h-3 w-3 sm:h-4 sm:w-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
+        
+        <div className="space-y-3 sm:space-y-4">
+          {recentActivity.length > 0 ? (
+            recentActivity.map((activity) => {
+              const Icon = activity.type === "post" ? FiEdit3 : activity.type === "event" ? FiCalendar : FiTrendingUp;
+              const colorClass = activity.type === "post" 
+                ? "bg-blue-600/20 text-blue-400 group-hover:text-blue-300" 
+                : activity.type === "event"
+                ? "bg-purple-600/20 text-purple-400 group-hover:text-purple-300"
+                : "bg-green-600/20 text-green-400 group-hover:text-green-300";
+              
+              return (
+                <Link
+                  key={activity.id}
+                  href={activity.link}
+                  className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl hover:bg-gray-800 transition-colors group"
+                >
+                  <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${colorClass.split(' ')[0]} ${colorClass.split(' ')[1]}`}>
+                    <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className={`text-xs sm:text-sm font-semibold text-white transition-colors ${colorClass.split(' ')[2]}`}>
+                      {activity.title}
+                    </p>
+                    <p className="text-xs sm:text-sm text-gray-400 mt-1 line-clamp-2">
+                      {activity.description}
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1.5 sm:mt-2">
+                      {getTimeAgo(activity.timestamp)}
+                    </p>
+                  </div>
+                </Link>
+              );
+            })
+          ) : (
+            <div className="text-center py-8">
+              <div className="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center mx-auto mb-3">
+                <FiEdit3 className="h-6 w-6 text-gray-400" />
+              </div>
+              <p className="text-sm text-gray-400">No recent activity</p>
+              <p className="text-xs text-gray-500 mt-1">Create your first blog post to get started</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

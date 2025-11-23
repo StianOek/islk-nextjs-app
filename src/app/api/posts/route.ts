@@ -5,14 +5,25 @@ import { getUserFromSession } from "@/lib/auth/session";
 
 // GET all posts with publisher name
 export async function GET() {
+  if (!pool) {
+    return NextResponse.json(
+      { error: "Database connection not available" },
+      { status: 503 }
+    );
+  }
+
   const client = await pool.connect();
   try {
     const result = await client.query(
-      `SELECT posts.*, users.name AS author
-   FROM posts
-   JOIN users ON posts.user_id = users.id
-   ORDER BY published_at DESC
-   LIMIT 12`
+      `SELECT 
+        posts.*, 
+        users.name AS author,
+        COALESCE(pvc.view_count, 0) as view_count
+       FROM posts
+       JOIN users ON posts.user_id = users.id
+       LEFT JOIN post_view_counts pvc ON posts.id = pvc.post_id
+       ORDER BY published_at DESC
+       LIMIT 12`
     );
     return NextResponse.json(result.rows);
   } finally {
@@ -36,6 +47,13 @@ export async function POST(req: Request) {
     return NextResponse.json(
       { error: "Missing required fields" },
       { status: 400 }
+    );
+  }
+
+  if (!pool) {
+    return NextResponse.json(
+      { error: "Database connection not available" },
+      { status: 503 }
     );
   }
 
@@ -73,6 +91,13 @@ export async function PUT(req: Request) {
   }
 
   const { id, title, slug, body, imageUrl, excerpt } = await req.json();
+
+  if (!pool) {
+    return NextResponse.json(
+      { error: "Database connection not available" },
+      { status: 503 }
+    );
+  }
 
   const client = await pool.connect();
   try {
@@ -115,6 +140,13 @@ export async function DELETE(req: Request) {
   }
 
   const { id } = await req.json();
+
+  if (!pool) {
+    return NextResponse.json(
+      { error: "Database connection not available" },
+      { status: 503 }
+    );
+  }
 
   const client = await pool.connect();
   try {
