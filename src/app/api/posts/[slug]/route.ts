@@ -2,10 +2,17 @@ import pool from "@/lib/db";
 import { NextResponse } from "next/server";
 
 export async function GET(
-  request: Request,
+  _request: Request,
   context: { params: Promise<{ slug: string }> }
 ) {
-  const { slug } = await context.params; // ✅ must await
+  const { slug } = await context.params;
+
+  if (!pool) {
+    return NextResponse.json(
+      { error: "Database connection not available" },
+      { status: 503 }
+    );
+  }
 
   const client = await pool.connect();
   try {
