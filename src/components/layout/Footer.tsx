@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { FaStrava, FaInstagram, FaFacebookF } from "react-icons/fa";
 
 export default function Footer() {
@@ -29,15 +30,40 @@ export default function Footer() {
             </h5>
             <ul className="space-y-3 text-gray-600 dark:text-gray-400">
               <li className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-[#FF6B35]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                <svg
+                  className="w-5 h-5 text-[#FF6B35]"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
                 </svg>
                 ihlenslk@gmail.com
               </li>
               <li className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-[#FF6B35]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                <svg
+                  className="w-5 h-5 text-[#FF6B35]"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
                 </svg>
                 Askim, Indre Østfold
               </li>
@@ -84,18 +110,34 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            © {new Date().getFullYear()} Ihlen Sosiale Løpeklubb. Alle rettigheter reservert.
+            © {new Date().getFullYear()} Ihlen Sosiale Løpeklubb. Alle
+            rettigheter reservert.
           </p>
-          <div className="flex gap-6 text-sm text-gray-500 dark:text-gray-400">
-            <a href="/om-oss" className="hover:text-[#FF6B35] transition-colors cursor-pointer">
+          <div className="flex gap-6 text-sm text-gray-500 dark:text-gray-400 flex-col justify-start w-full sm:flex-row sm:justify-end">
+            <Link
+              href="/auth"
+              className="hover:text-[#FF6B35] transition-colors cursor-pointer"
+            >
+              Logg inn
+            </Link>
+            <Link
+              href="/om-oss"
+              className="hover:text-[#FF6B35] transition-colors cursor-pointer"
+            >
               Om oss
-            </a>
-            <a href="/events" className="hover:text-[#FF6B35] transition-colors cursor-pointer">
+            </Link>
+            <Link
+              href="/events"
+              className="hover:text-[#FF6B35] transition-colors cursor-pointer"
+            >
               Arrangementer
-            </a>
-            <a href="/blog" className="hover:text-[#FF6B35] transition-colors cursor-pointer">
+            </Link>
+            <Link
+              href="/blog"
+              className="hover:text-[#FF6B35] transition-colors cursor-pointer"
+            >
               Blogg
-            </a>
+            </Link>
           </div>
         </div>
       </div>
