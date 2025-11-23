@@ -47,15 +47,15 @@ export default function PostModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl w-full max-w-lg p-6 relative">
+    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
+      <div className="bg-gray-900/95 border border-gray-800 rounded-2xl shadow-2xl w-full max-w-lg p-6 relative backdrop-blur-xl">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+          className="absolute top-4 right-4 text-gray-400 hover:text-white"
         >
           ✕
         </button>
-        <h2 className="text-2xl font-bold mb-4">
+        <h2 className="text-2xl font-bold mb-4 text-white">
           {editing ? "Edit Post" : "Create Post"}
         </h2>
 
@@ -65,20 +65,20 @@ export default function PostModal({
             placeholder="Post Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 focus:ring-2 focus:ring-orange-500"
+            className="w-full p-3 rounded-lg border border-gray-700 bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
           />
           <input
             type="text"
             placeholder="Slug (e.g. my-first-post)"
             value={slug}
             onChange={(e) => setSlug(e.target.value)}
-            className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 focus:ring-2 focus:ring-orange-500"
+            className="w-full p-3 rounded-lg border border-gray-700 bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
           />
           <textarea
             placeholder="Post Content"
             value={body}
             onChange={(e) => setBody(e.target.value)}
-            className="w-full p-3 h-32 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 focus:ring-2 focus:ring-orange-500"
+            className="w-full p-3 h-32 rounded-lg border border-gray-700 bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
           />
 
           {/* Upload Zone */}
@@ -90,7 +90,7 @@ export default function PostModal({
                 const files = e.dataTransfer.files;
                 if (files.length > 0) handleFiles(files[0]);
               }}
-              className={`flex flex-col items-center justify-center w-full h-48 border-2 border-dashed rounded-lg cursor-pointer transition border-gray-300 dark:border-gray-600 `}
+              className={`flex flex-col items-center justify-center w-full h-48 border-2 border-dashed rounded-lg cursor-pointer transition border-gray-700 hover:border-gray-600`}
             >
               {imageUrl ? (
                 <Image
@@ -115,7 +115,7 @@ export default function PostModal({
                       d="M4 16v1a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1M12 12v9m0-9l-3 3m3-3l3 3M16 6a4 4 0 0 1-8 0 4 4 0 0 1 8 0z"
                     />
                   </svg>
-                  <p className="text-gray-500 text-sm">
+                  <p className="text-gray-400 text-sm">
                     <b>Tap to upload</b> or drag an image
                   </p>
                 </div>
@@ -144,7 +144,7 @@ export default function PostModal({
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 rounded-lg font-semibold hover:opacity-90 transition disabled:opacity-50"
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-semibold transition disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
           >
             {editing ? "Update Post" : "Create Post"}
           </button>

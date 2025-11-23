@@ -139,16 +139,16 @@ export default function BlogDashboard() {
     <main className="max-w-7xl mx-auto">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
         <div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">
+          <h1 className="text-3xl sm:text-4xl font-bold text-white">
             Blog Posts
           </h1>
-          <p className="text-sm sm:text-base text-gray-600 mt-1 sm:mt-2">
+          <p className="text-sm sm:text-base text-gray-400 mt-1 sm:mt-2">
             Create and manage your blog content
           </p>
         </div>
         <button
           onClick={() => setModalOpen(true)}
-          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white px-5 py-2.5 sm:px-6 sm:py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-sm sm:text-base"
+          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 sm:px-6 sm:py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-sm sm:text-base cursor-pointer"
         >
           <span className="text-lg sm:text-xl">+</span>
           <span>Create Post</span>
@@ -160,16 +160,16 @@ export default function BlogDashboard() {
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 animate-pulse"
+              className="bg-gray-900/80 rounded-2xl shadow-lg overflow-hidden border border-gray-800 animate-pulse backdrop-blur-lg"
             >
-              <div className="w-full h-48 bg-gray-200" />
+              <div className="w-full h-48 bg-gray-800" />
               <div className="p-4 space-y-3">
-                <div className="h-6 bg-gray-200 rounded w-3/4" />
-                <div className="h-4 bg-gray-200 rounded w-1/2" />
+                <div className="h-6 bg-gray-800 rounded w-3/4" />
+                <div className="h-4 bg-gray-800 rounded w-1/2" />
                 <div className="space-y-2">
-                  <div className="h-3 bg-gray-200 rounded" />
-                  <div className="h-3 bg-gray-200 rounded" />
-                  <div className="h-3 bg-gray-200 rounded w-5/6" />
+                  <div className="h-3 bg-gray-800 rounded" />
+                  <div className="h-3 bg-gray-800 rounded" />
+                  <div className="h-3 bg-gray-800 rounded w-5/6" />
                 </div>
               </div>
             </div>
@@ -177,14 +177,14 @@ export default function BlogDashboard() {
         </div>
       ) : posts.length === 0 ? (
         <div className="text-center py-12">
-          <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
+          <div className="w-16 h-16 rounded-full bg-gray-800 flex items-center justify-center mx-auto mb-4">
             <span className="text-3xl">📝</span>
           </div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">No posts yet</h3>
-          <p className="text-gray-600 mb-6">Create your first blog post to get started</p>
+          <h3 className="text-xl font-semibold text-white mb-2">No posts yet</h3>
+          <p className="text-gray-400 mb-6">Create your first blog post to get started</p>
           <button
             onClick={() => setModalOpen(true)}
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-200"
+            className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer"
           >
             <span className="text-xl">+</span>
             <span>Create Your First Post</span>

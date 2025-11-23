@@ -80,14 +80,14 @@ export default function DashboardSidebar() {
   return (
     <>
       {/* Desktop Sidebar - Fixed */}
-      <aside className="hidden md:flex md:flex-col w-72 bg-white border-r border-gray-200 shadow-sm fixed left-0 top-0 h-screen">
+      <aside className="hidden md:flex md:flex-col w-72 bg-gray-900/80 border-r border-gray-800 shadow-sm fixed left-0 top-0 h-screen backdrop-blur-lg">
         <div className="flex flex-col h-full">
           {/* Logo/Brand */}
-          <div className="p-6 border-b border-gray-100">
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              Dashboard
+          <div className="p-6 border-b border-gray-800">
+            <h2 className="text-2xl font-bold text-white">
+              ISLK
             </h2>
-            <p className="text-sm text-gray-500 mt-1">Content Management</p>
+            <p className="text-sm text-gray-400 mt-1">Content Management</p>
           </div>
 
           {/* Navigation */}
@@ -101,8 +101,8 @@ export default function DashboardSidebar() {
                   href={item.href}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-200 group ${
                     active
-                      ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-md shadow-blue-200"
-                      : "text-gray-700 hover:bg-gray-50 hover:text-blue-600"
+                      ? "bg-indigo-600 text-white shadow-md"
+                      : "text-gray-400 hover:bg-gray-800 hover:text-white"
                   }`}
                   aria-current={active ? "page" : undefined}
                 >
@@ -114,20 +114,20 @@ export default function DashboardSidebar() {
           </nav>
 
           {/* User Section - Fixed at bottom */}
-          <div className="p-4 border-t border-gray-100">
-            <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-gray-50 mb-2">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center text-white font-semibold text-sm">
+          <div className="p-4 border-t border-gray-800">
+            <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-gray-800 mb-2">
+              <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-semibold text-sm">
                 {user ? getInitials(userName) : <FiUser className="h-5 w-5" />}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-gray-900 truncate">{userName}</p>
-                <p className="text-xs text-gray-500 truncate">{userEmail}</p>
+                <p className="text-sm font-semibold text-white truncate">{userName}</p>
+                <p className="text-xs text-gray-400 truncate">{userEmail}</p>
               </div>
             </div>
             <form action="/api/auth/signout" method="POST">
               <button
                 type="submit"
-                className="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-gray-700 hover:bg-red-50 hover:text-red-600 font-medium transition-all duration-200 group"
+                className="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-gray-400 hover:bg-gray-800 hover:text-red-400 font-medium transition-all duration-200 group cursor-pointer"
               >
                 <FiLogOut className="h-5 w-5 group-hover:scale-110 transition-transform" />
                 <span>Sign Out</span>
@@ -138,21 +138,21 @@ export default function DashboardSidebar() {
       </aside>
 
       {/* Mobile Top Bar - Fixed */}
-      <header className="flex md:hidden w-full bg-white/95 backdrop-blur-md shadow-sm px-4 py-3 items-center justify-between fixed top-0 left-0 right-0 z-30 border-b border-gray-100">
-        <h2 className="text-lg font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+      <header className="flex md:hidden w-full bg-gray-900/95 backdrop-blur-md shadow-sm px-4 py-3 items-center justify-between fixed top-0 left-0 right-0 z-30 border-b border-gray-800">
+        <h2 className="text-lg font-bold text-white">
           Dashboard
         </h2>
         <button
           type="button"
-          className="p-2 rounded-lg hover:bg-gray-100 transition-colors active:scale-95"
+          className="p-2 rounded-lg hover:bg-gray-800 transition-colors active:scale-95"
           onClick={toggleMobileSidebar}
           aria-label="Toggle menu"
           aria-expanded={mobileSidebarOpen}
         >
           {mobileSidebarOpen ? (
-            <FiX className="h-6 w-6 text-gray-600" />
+            <FiX className="h-6 w-6 text-gray-400" />
           ) : (
-            <FiMenu className="h-6 w-6 text-gray-600" />
+            <FiMenu className="h-6 w-6 text-gray-400" />
           )}
         </button>
       </header>
@@ -168,25 +168,25 @@ export default function DashboardSidebar() {
 
       {/* Mobile Sidebar */}
       <div
-        className={`fixed top-0 left-0 z-[50] w-80 max-w-[85vw] h-screen bg-white shadow-2xl transition-transform duration-300 ease-out md:hidden ${
+        className={`fixed top-0 left-0 z-[50] w-80 max-w-[85vw] h-screen bg-gray-900/95 backdrop-blur-lg shadow-2xl transition-transform duration-300 ease-out md:hidden border-r border-gray-800 ${
           mobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <div className="flex flex-col h-full">
           {/* Mobile Header */}
-          <div className="flex items-center justify-between p-6 border-b border-gray-100">
+          <div className="flex items-center justify-between p-6 border-b border-gray-800">
             <div>
-              <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              <h2 className="text-2xl font-bold text-white">
                 Dashboard
               </h2>
-              <p className="text-sm text-gray-500 mt-1">Content Management</p>
+              <p className="text-sm text-gray-400 mt-1">Content Management</p>
             </div>
             <button
               onClick={() => setMobileSidebarOpen(false)}
-              className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              className="p-2 rounded-lg hover:bg-gray-800 transition-colors"
               aria-label="Close menu"
             >
-              <FiX className="h-6 w-6 text-gray-600" />
+              <FiX className="h-6 w-6 text-gray-400" />
             </button>
           </div>
 
@@ -202,8 +202,8 @@ export default function DashboardSidebar() {
                   onClick={() => setMobileSidebarOpen(false)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-200 ${
                     active
-                      ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-md"
-                      : "text-gray-700 hover:bg-gray-50 hover:text-blue-600"
+                      ? "bg-indigo-600 text-white shadow-md"
+                      : "text-gray-400 hover:bg-gray-800 hover:text-white"
                   }`}
                   aria-current={active ? "page" : undefined}
                 >
@@ -215,21 +215,21 @@ export default function DashboardSidebar() {
           </nav>
 
           {/* Mobile User Section */}
-          <div className="p-4 border-t border-gray-100">
-            <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-gray-50 mb-2">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center text-white font-semibold text-sm">
+          <div className="p-4 border-t border-gray-800">
+            <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-gray-800 mb-2">
+              <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-semibold text-sm">
                 {user ? getInitials(userName) : <FiUser className="h-5 w-5" />}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-gray-900 truncate">{userName}</p>
-                <p className="text-xs text-gray-500 truncate">{userEmail}</p>
+                <p className="text-sm font-semibold text-white truncate">{userName}</p>
+                <p className="text-xs text-gray-400 truncate">{userEmail}</p>
               </div>
             </div>
             <form action="/api/auth/signout" method="POST">
               <button
                 type="submit"
                 onClick={() => setMobileSidebarOpen(false)}
-                className="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-gray-700 hover:bg-red-50 hover:text-red-600 font-medium transition-all duration-200"
+                className="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-gray-400 hover:bg-gray-800 hover:text-red-400 font-medium transition-all duration-200 cursor-pointer"
               >
                 <FiLogOut className="h-5 w-5" />
                 <span>Sign Out</span>
