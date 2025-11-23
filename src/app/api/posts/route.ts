@@ -5,6 +5,13 @@ import { getUserFromSession } from "@/lib/auth/session";
 
 // GET all posts with publisher name
 export async function GET() {
+  if (!pool) {
+    return NextResponse.json(
+      { error: "Database connection not available" },
+      { status: 503 }
+    );
+  }
+
   const client = await pool.connect();
   try {
     const result = await client.query(
@@ -36,6 +43,13 @@ export async function POST(req: Request) {
     return NextResponse.json(
       { error: "Missing required fields" },
       { status: 400 }
+    );
+  }
+
+  if (!pool) {
+    return NextResponse.json(
+      { error: "Database connection not available" },
+      { status: 503 }
     );
   }
 
@@ -73,6 +87,13 @@ export async function PUT(req: Request) {
   }
 
   const { id, title, slug, body, imageUrl, excerpt } = await req.json();
+
+  if (!pool) {
+    return NextResponse.json(
+      { error: "Database connection not available" },
+      { status: 503 }
+    );
+  }
 
   const client = await pool.connect();
   try {
@@ -115,6 +136,13 @@ export async function DELETE(req: Request) {
   }
 
   const { id } = await req.json();
+
+  if (!pool) {
+    return NextResponse.json(
+      { error: "Database connection not available" },
+      { status: 503 }
+    );
+  }
 
   const client = await pool.connect();
   try {
