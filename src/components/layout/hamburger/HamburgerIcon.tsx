@@ -1,21 +1,10 @@
 import { FC, ReactElement } from "react";
 
-/**
- * @typedef {object} HamburgerIconProps
- * @property {() => void} toggleMenu - Funksjon som kaller på menyen.
- * @property {boolean} isMenuOpen - En boolean som indikerer om menyen er åpen eller lukket.
- */
 type HamburgerIconProps = {
   toggleMenu: () => void;
   isMenuOpen: boolean;
 };
 
-/**
- * En animert hamburger-ikon komponent for å veksle mellom en meny og et lukkeikon.
- *
- * @param {HamburgerIconProps} props - Egenskaper for komponenten.
- * @returns {ReactElement} En React-knapp med animerte linjer.
- */
 const HamburgerIcon: FC<HamburgerIconProps> = ({
   toggleMenu,
   isMenuOpen,
@@ -23,29 +12,33 @@ const HamburgerIcon: FC<HamburgerIconProps> = ({
   return (
     <button
       onClick={toggleMenu}
-      className="relative z-50 flex flex-col justify-between items-center w-8 group rounded-md transition duration-200 ease-in-out cursor-pointer"
-      aria-label="Toggle menu"
+      className="relative z-50 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 flex items-center justify-center"
+      aria-label={isMenuOpen ? "Lukk meny" : "Åpne meny"}
     >
-      {/* Container for de animerte linjene */}
-      <div className="flex flex-col justify-between w-[25px] h-[20px] transform transition-all duration-300 ease-in-out">
-        {/* Første linje */}
-        <div
-          className={`h-1 w-full bg-[#FC5200] rounded-lg transition-all duration-300 ease-in-out ${
-            isMenuOpen ? "rotate-45 translate-y-[8px] translate-x-0" : ""
+      {/* Container for animated lines */}
+      <div className="flex flex-col justify-between w-6 h-5 items-center">
+        {/* Top line */}
+        <span
+          className={`h-0.5 w-full bg-[#FF6B35] rounded-full transition-all duration-300 ease-out ${
+            isMenuOpen
+              ? "rotate-45 translate-y-[9px]"
+              : "rotate-0 translate-y-0"
           }`}
-        ></div>
-        {/* Andre linje (midten) */}
-        <div
-          className={`h-1 w-full bg-[#FC5200] rounded-lg transition-all duration-300 ease-in-out ${
-            isMenuOpen ? "opacity-0" : ""
+        />
+        {/* Middle line */}
+        <span
+          className={`h-0.5 w-full bg-[#FF6B35] rounded-full transition-all duration-300 ease-out ${
+            isMenuOpen ? "opacity-0 scale-0" : "opacity-100 scale-100"
           }`}
-        ></div>
-        {/* Tredje linje */}
-        <div
-          className={`h-1 w-full bg-[#FC5200] rounded-lg transition-all duration-300 ease-in-out ${
-            isMenuOpen ? "-rotate-45 -translate-y-[8px] translate-x-0" : ""
+        />
+        {/* Bottom line */}
+        <span
+          className={`h-0.5 w-full bg-[#FF6B35] rounded-full transition-all duration-300 ease-out ${
+            isMenuOpen
+              ? "-rotate-45 -translate-y-[9px]"
+              : "rotate-0 translate-y-0"
           }`}
-        ></div>
+        />
       </div>
     </button>
   );

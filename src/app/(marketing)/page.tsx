@@ -43,8 +43,8 @@ export default function Home(): React.ReactElement {
 
   return (
     <>
-      <main className="  text-gray-800 dark:text-gray-300 ">
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-gray-800 dark:text-gray-300">
+      <main className="text-gray-900 dark:text-gray-300">
+        <section>
           <Hero />
         </section>
         <section>
@@ -56,24 +56,34 @@ export default function Home(): React.ReactElement {
         {/* Strava-seksjon */}
         <section
           id="strava-section"
-          className="py-16  bg-gradient-to-b  dark:from-gray-950 dark:via-gray-800 dark:to-gray-950 overflow-hidden transition-colors duration-500"
+          className="py-24 sm:py-32 bg-gradient-to-b from-white via-gray-50 to-white dark:from-[#1A1A1A] dark:via-[#2D2D2D] dark:to-[#1A1A1A] overflow-hidden transition-colors duration-500"
         >
-          <div className="flex flex-col items-center text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-300  leading-tight">
-              Klubb og segmenter
-            </h2>
-            <p className="mt-4 text-xl text-gray-600 dark:text-gray-400 max-w-2xl">
-              Følg våre aktiviteter på strava og se hvilke segmenter vi jogger.
-            </p>
-            <a href="https://www.strava.com" target="_blank">
-              <button className="mt-6 flex items-center px-6 py-3 bg-orange-600 text-white font-medium rounded-full shadow-lg hover:bg-[#orange-600 transition duration-300 cursor-pointer">
-                <FaStrava className="mr-2 h-5 w-5" />
-                Kom i gang med strava
-              </button>
-            </a>
-          </div>
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+            <div className="flex flex-col items-center text-center mb-16 space-y-6">
+              <div className="inline-block px-4 py-2 bg-[#FF6B35]/10 dark:bg-[#FF6B35]/20 rounded-full">
+                <span className="text-sm font-semibold text-[#FF6B35] tracking-wide uppercase">
+                  Strava
+                </span>
+              </div>
+              
+              <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white leading-tight max-w-3xl">
+                Klubb og segmenter
+              </h2>
+              
+              <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-2xl leading-relaxed">
+                Følg våre aktiviteter på Strava og se hvilke segmenter vi jogger.
+              </p>
+              
+              <a href="https://www.strava.com" target="_blank" rel="noopener noreferrer">
+                <button className="flex items-center gap-3 px-8 py-4 bg-[#FF6B35] text-white font-semibold rounded-full shadow-lg hover:shadow-xl hover:bg-[#E85A2A] transition-all duration-300">
+                  <FaStrava className="h-5 w-5" />
+                  Kom i gang med Strava
+                </button>
+              </a>
+            </div>
 
-          <Strava />
+            <Strava />
+          </div>
         </section>
       </main>
     </>

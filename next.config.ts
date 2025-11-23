@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
       "d3nn82uaxijpm6.cloudfront.net",
       "dgalywyr863hv.cloudfront.net",
       "images.strava.com",
+      "graph.facebook.com",
     ],
   },
 };

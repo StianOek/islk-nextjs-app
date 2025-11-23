@@ -1,49 +1,95 @@
 "use client";
 
+import Link from "next/link";
 import { FaStrava, FaInstagram, FaFacebookF } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden">
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#f2f2f2] to-[#FFF0E0]/60 dark:from-gray-950 dark:to-gray-800  transition-all duration-500 antialiased" />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid md:grid-cols-3 gap-8 items-start">
-          <div>
-            <h4 className="text-xl font-bold text-gray-600 dark:text-gray-200">
+    <footer className="relative overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-[#1A1A1A] dark:to-[#2D2D2D] border-t border-gray-100 dark:border-gray-800">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+        <div className="grid md:grid-cols-3 gap-12 items-start">
+          {/* Brand */}
+          <div className="space-y-4">
+            <h4 className="text-2xl font-bold text-gray-900 dark:text-white">
               Ihlen Sosiale Løpeklubb
             </h4>
-            <p className="mt-2 text-gray-600 dark:text-gray-400">
+            <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
               Løpeglede, fellesskap og kaffe etterpå.
             </p>
+            <div className="inline-block px-4 py-2 bg-[#FF6B35]/10 dark:bg-[#FF6B35]/20 rounded-full">
+              <span className="text-sm font-semibold text-[#FF6B35]">
+                Lavterskel • Alle nivåer
+              </span>
+            </div>
           </div>
 
-          <div>
-            <h5 className="font-semibold mb-2 text-gray-600 dark:text-gray-200">
+          {/* Contact */}
+          <div className="space-y-4">
+            <h5 className="text-lg font-semibold text-gray-900 dark:text-white">
               Kontakt
             </h5>
-            <ul className="space-y-1 text-gray-600 dark:text-gray-400">
-              <li>E-post: ihlenslk@gmail.com</li>
-              <li>Sted: Askim, Indre Østfold</li>
+            <ul className="space-y-3 text-gray-600 dark:text-gray-400">
+              <li className="flex items-center gap-2">
+                <svg
+                  className="w-5 h-5 text-[#FF6B35]"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
+                </svg>
+                ihlenslk@gmail.com
+              </li>
+              <li className="flex items-center gap-2">
+                <svg
+                  className="w-5 h-5 text-[#FF6B35]"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+                Askim, Indre Østfold
+              </li>
             </ul>
           </div>
 
-          <div>
-            <h5 className="font-semibold mb-4 text-gray-600 dark:text-gray-200">
+          {/* Social */}
+          <div className="space-y-4">
+            <h5 className="text-lg font-semibold text-gray-900 dark:text-white">
               Følg oss
             </h5>
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               <a
                 href="https://www.strava.com/"
                 target="_blank"
-                className="group p-3 rounded-full bg-orange-600/10 dark:bg-orange-600/20 hover:bg-orange-600 dark:hover:bg-orange-600 transition-colors duration-300 shadow-md"
+                rel="noopener noreferrer"
+                className="group p-3 rounded-xl bg-[#FF6B35]/10 dark:bg-[#FF6B35]/20 hover:bg-[#FF6B35] transition-all duration-300 shadow-sm hover:shadow-md"
                 aria-label="Strava"
               >
-                <FaStrava className="text-[#fc5200] group-hover:text-white transition-colors duration-300 text-xl" />
+                <FaStrava className="text-[#FF6B35] group-hover:text-white transition-colors duration-300 text-xl" />
               </a>
               <a
                 href="https://www.instagram.com/ihlensosialelopeklubb?igsh=MW01bmV2cTB1ajFjcQ=="
                 target="_blank"
-                className="group p-3 rounded-full bg-pink-500/10 dark:bg-pink-500/20 hover:bg-pink-500 transition-colors duration-300 shadow-md"
+                rel="noopener noreferrer"
+                className="group p-3 rounded-xl bg-pink-500/10 dark:bg-pink-500/20 hover:bg-pink-500 transition-all duration-300 shadow-sm hover:shadow-md"
                 aria-label="Instagram"
               >
                 <FaInstagram className="text-pink-500 group-hover:text-white transition-colors duration-300 text-xl" />
@@ -51,7 +97,8 @@ export default function Footer() {
               <a
                 href="https://www.facebook.com/share/1FdUz7xf8u/"
                 target="_blank"
-                className="group p-3 rounded-full bg-blue-600/10 dark:bg-blue-600/20 hover:bg-blue-600 transition-colors duration-300 shadow-md"
+                rel="noopener noreferrer"
+                className="group p-3 rounded-xl bg-blue-600/10 dark:bg-blue-600/20 hover:bg-blue-600 transition-all duration-300 shadow-sm hover:shadow-md"
                 aria-label="Facebook"
               >
                 <FaFacebookF className="text-blue-600 group-hover:text-white transition-colors duration-300 text-xl" />
@@ -60,9 +107,38 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-800 text-sm text-gray-500 dark:text-gray-400">
-          © {new Date().getFullYear()} Ihlen Sosiale Løpeklubb. All rights
-          reserved.
+        {/* Bottom bar */}
+        <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            © {new Date().getFullYear()} Ihlen Sosiale Løpeklubb. Alle
+            rettigheter reservert.
+          </p>
+          <div className="flex gap-6 text-sm text-gray-500 dark:text-gray-400 flex-col justify-start w-full sm:flex-row sm:justify-end">
+            <Link
+              href="/auth"
+              className="hover:text-[#FF6B35] transition-colors cursor-pointer"
+            >
+              Logg inn
+            </Link>
+            <Link
+              href="/om-oss"
+              className="hover:text-[#FF6B35] transition-colors cursor-pointer"
+            >
+              Om oss
+            </Link>
+            <Link
+              href="/events"
+              className="hover:text-[#FF6B35] transition-colors cursor-pointer"
+            >
+              Arrangementer
+            </Link>
+            <Link
+              href="/blog"
+              className="hover:text-[#FF6B35] transition-colors cursor-pointer"
+            >
+              Blogg
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
