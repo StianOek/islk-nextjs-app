@@ -20,11 +20,13 @@ export default function Hero() {
                   Lavterskel • Fellesskap • Løpeglede
                 </span>
               </div>
-              
+
               <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight tracking-tight">
                 <span className="text-gray-900 dark:text-white">Ihlen</span>
                 <br />
-                <span className="text-gray-900 dark:text-white font-light">Sosiale</span>
+                <span className="text-gray-900 dark:text-white font-light">
+                  Sosiale
+                </span>
                 <br />
                 <span className="text-[#FF6B35] bg-gradient-to-r from-[#FF6B35] to-[#F7931E] bg-clip-text text-transparent">
                   Løpeklubb
@@ -32,7 +34,7 @@ export default function Hero() {
               </h1>
 
               <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                Din lokale løpeklubb i Indre Østfold. Vi fokuserer på løpeglede, 
+                Din lokale løpeklubb i Indre Østfold. Vi fokuserer på løpeglede,
                 fellesskap og kaffe etterpå – uansett nivå!
               </p>
             </div>
@@ -45,7 +47,7 @@ export default function Hero() {
                 <span className="relative z-10">Se våre løpeturer</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-[#FF6B35] to-[#F7931E] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </a>
-              
+
               <a
                 href="/om-oss"
                 className="px-8 py-4 bg-transparent border-2 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-full text-base font-semibold hover:border-[#FF6B35] hover:text-[#FF6B35] transition-all duration-300"
@@ -57,16 +59,22 @@ export default function Hero() {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-6 pt-8 max-w-lg mx-auto lg:mx-0">
               <div className="text-center lg:text-left">
-                <div className="text-3xl font-bold text-[#FF6B35]">15+</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">Aktive medlemmer</div>
+                <div className="text-3xl font-bold text-[#FF6B35]">50+</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  Aktive medlemmer
+                </div>
               </div>
               <div className="text-center lg:text-left">
                 <div className="text-3xl font-bold text-[#FF6B35]">1x</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">Ukentlig trening</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  Ukentlig trening
+                </div>
               </div>
               <div className="text-center lg:text-left">
                 <div className="text-3xl font-bold text-[#FF6B35]">100%</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">Løpeglede</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  Løpeglede
+                </div>
               </div>
             </div>
           </div>
@@ -87,7 +95,7 @@ export default function Hero() {
                 {/* Gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-[#FF6B35]/20 via-transparent to-transparent" />
               </div>
-              
+
               {/* Decorative elements */}
               <div className="absolute -top-6 -right-6 w-32 h-32 bg-[#F7931E]/20 rounded-full blur-2xl animate-pulse-slow" />
               <div className="absolute -bottom-6 -left-6 w-40 h-40 bg-[#004E89]/20 rounded-full blur-2xl animate-pulse-slower" />
