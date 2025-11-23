@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa";
+import { FiEye } from "react-icons/fi";
 import useFetch from "@/hooks/useFetch";
 import { Post } from "@/types/posts";
 
@@ -67,10 +68,17 @@ export default function IndexPage() {
                   <h2 className="text-xl font-bold mb-2 group-hover:text-[#FC5200] transition-colors duration-300">
                     {post.title}
                   </h2>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                    Publisert:{" "}
-                    {new Date(post.published_at).toLocaleDateString("nb-NO")}
-                  </p>
+                  <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    <p>
+                      Publisert:{" "}
+                      {new Date(post.published_at).toLocaleDateString("nb-NO")}
+                    </p>
+                    <span>•</span>
+                    <p className="flex items-center gap-1">
+                      <FiEye className="h-3.5 w-3.5" />
+                      <span>{post.view_count || 0}</span>
+                    </p>
+                  </div>
                   <p className="mt-4 text-gray-700 dark:text-gray-300 flex-grow leading-relaxed">
                     {getExcerpt(post.body, post.excerpt)}
                   </p>

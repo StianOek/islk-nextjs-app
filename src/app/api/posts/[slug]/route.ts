@@ -17,9 +17,18 @@ export async function GET(
   const client = await pool.connect();
   try {
     const result = await client.query(
-      `SELECT id, title, slug, body, excerpt, image_url, published_at
+      `SELECT 
+        posts.id, 
+        posts.title, 
+        posts.slug, 
+        posts.body, 
+        posts.excerpt, 
+        posts.image_url, 
+        posts.published_at,
+        COALESCE(pvc.view_count, 0) as view_count
        FROM posts
-       WHERE slug = $1
+       LEFT JOIN post_view_counts pvc ON posts.id = pvc.post_id
+       WHERE posts.slug = $1
        LIMIT 1`,
       [slug]
     );
