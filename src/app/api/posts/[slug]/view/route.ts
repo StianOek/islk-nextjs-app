@@ -4,10 +4,10 @@ import { headers } from "next/headers";
 
 export async function POST(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const { slug } = params;
+    const { slug } = await params;
 
     if (!pool) {
       return NextResponse.json(
@@ -32,7 +32,7 @@ export async function POST(
       const postId = postResult.rows[0].id;
 
       // Get IP and user agent for basic tracking
-      const headersList = headers();
+      const headersList = await headers();
       const ipAddress =
         headersList.get("x-forwarded-for") ||
         headersList.get("x-real-ip") ||
