@@ -12,7 +12,7 @@ export default function DashboardLayout({
 
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-gradient-to-br from-gray-50 to-gray-100`}>
+      <body className={`${inter.className} bg-gradient-to-br from-gray-900 via-gray-800 to-black`}>
         <div className="flex min-h-screen">
           <DashboardSidebar />
           
