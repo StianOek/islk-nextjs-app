@@ -1,12 +1,16 @@
 // lib/db.ts
 import { neon } from "@neondatabase/serverless";
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL not set");
+const DATABASE_URL = process.env.DATABASE_URL;
+
+if (!DATABASE_URL && process.env.NODE_ENV !== "production") {
+  console.warn("DATABASE_URL not set - database features will be unavailable");
 }
 
 // Neon gives a template-tag function you call with SQL
-export const sql = neon(process.env.DATABASE_URL);
+export const sql = DATABASE_URL ? neon(DATABASE_URL) : (() => {
+  throw new Error("DATABASE_URL not configured");
+}) as ReturnType<typeof neon>;
 
 export async function one<T extends Record<string, unknown>>(
   q: TemplateStringsArray,
@@ -29,9 +33,9 @@ export async function maybeOne<T extends Record<string, unknown>>(
 
 import { Pool } from "pg";
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL, // from Neon dashboard
+const pool = DATABASE_URL ? new Pool({
+  connectionString: DATABASE_URL, // from Neon dashboard
   ssl: { rejectUnauthorized: false }, // Neon requires SSL
-});
+}) : null;
 
 export default pool;
