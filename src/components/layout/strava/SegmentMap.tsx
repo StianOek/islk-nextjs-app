@@ -27,12 +27,12 @@ const SegmentMap = dynamic(
         return (
           <MapContainer
             bounds={points}
-            style={{ width: "100%", height: "300px" }}
+            style={{ width: "100%", height: "100%" }}
             className="rounded-xl z-10"
             boundsOptions={{ padding: [50, 50] }}
           >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-            <Polyline positions={points} pathOptions={{ color: "#FC5200" }} />
+            <Polyline positions={points} pathOptions={{ color: "#FF6B35" }} />
             <MapResizeHook /> {/* Add this hook to handle resizing */}
           </MapContainer>
         );

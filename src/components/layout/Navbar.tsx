@@ -12,6 +12,8 @@ export default function Navbar() {
   const [isDark, setIsDark] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [navbarVisible, setNavbarVisible] = useState(true);
 
   const navLinks = [
     { label: "Hjem", href: "/" },
@@ -22,10 +24,33 @@ export default function Navbar() {
   ];
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Set scrolled state
+      setScrolled(currentScrollY > 10);
+      
+      // Don't hide navbar if mobile menu is open
+      if (isMenuOpen) {
+        setNavbarVisible(true);
+        return;
+      }
+      
+      // Hide/show navbar based on scroll direction
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Scrolling down & past threshold
+        setNavbarVisible(false);
+      } else {
+        // Scrolling up or at top
+        setNavbarVisible(true);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [lastScrollY, isMenuOpen]);
 
   useEffect(() => {
     const saved = localStorage.getItem("theme");
@@ -54,84 +79,90 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 w-full z-50 border-b transition-all ease-in-out ${
+          navbarVisible ? "translate-y-0 duration-300" : "-translate-y-full duration-200"
+        } ${
           scrolled
-            ? "bg-white/80 dark:bg-gray-950/60 backdrop-blur-lg shadow-md"
-            : "bg-transparent"
+            ? "bg-white/98 dark:bg-[#1A1A1A]/98 backdrop-blur-xl shadow-lg border-gray-200/50 dark:border-gray-800/50"
+            : "bg-transparent border-transparent"
         }`}
       >
-        <div className="max-w-7xl mx-auto flex items-center justify-between py-5 px-6">
+        <div className={`max-w-7xl mx-auto flex items-center justify-between transition-all duration-300 ${
+          scrolled ? "px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3" : "px-4 sm:px-6 lg:px-8 py-3 sm:py-4"
+        }`}>
           {/* Logo */}
-          <Link href="/" aria-label="Hjem" className="flex items-center gap-2">
+          <Link href="/" aria-label="Hjem" className="flex items-center gap-2 sm:gap-3 group">
             <Image
-              width={50}
-              height={50}
+              width={40}
+              height={40}
               src={isDark ? "logo-dark.svg" : "logo.svg"}
-              alt="Logo"
+              alt="ISLK Logo"
               priority
+              className="w-9 h-9 sm:w-11 sm:h-11 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
             />
+            <span className="text-base sm:text-lg font-semibold tracking-tight transition-all duration-300 text-gray-900 dark:text-white leading-none">
+              ISLK
+            </span>
           </Link>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 sm:gap-4 lg:gap-6">
             {/* Desktop navigation */}
-            <nav className="hidden lg:flex items-center gap-8 text-base font-medium">
+            <nav className="hidden lg:flex items-center gap-1">
               {navLinks.map((link) => (
                 <Link
                   key={link.label}
                   href={link.href}
-                  className={`transition-colors duration-200 flex items-center gap-2 ${
+                  className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
                     pathname === link.href
-                      ? "text-orange-600"
-                      : scrolled
-                        ? "text-gray-800 dark:text-gray-200 hover:text-orange-600"
-                        : "text-gray-800 dark:text-gray-200 hover:text-orange-600"
+                      ? "text-[#FF6B35] bg-[#FF6B35]/10"
+                      : "text-gray-700 dark:text-gray-300 hover:text-[#FF6B35] hover:bg-gray-50 dark:hover:bg-gray-800/50"
                   }`}
                 >
-                  <span>{link.icon && <link.icon />}</span>
+                  {link.icon && <link.icon className="text-base" />}
                   {link.label}
                 </Link>
               ))}
             </nav>
 
-            {/* Dark mode toggle */}
+            {/* Dark mode toggle - Desktop only */}
             <button
               aria-label="Toggle Dark Mode"
               onClick={toggleDarkMode}
-              className={`relative w-14 h-7 flex items-center rounded-full transition-colors duration-300 cursor-pointer
-                ${isDark ? "bg-gray-700" : "bg-gray-300"}`}
+              className={`hidden lg:flex relative w-12 h-6 items-center rounded-full transition-all duration-300 cursor-pointer border
+                ${isDark ? "bg-gray-700 border-gray-600" : "bg-gray-200 border-gray-300"}`}
             >
               <span
-                className={`absolute left-1 w-5 h-5 rounded-full transition-all duration-300 transform flex items-center justify-center
-                  ${isDark ? "translate-x-7 bg-yellow-400 text-gray-900" : "bg-gray-800 text-yellow-400"}`}
+                className={`absolute left-0.5 w-5 h-5 rounded-full transition-all duration-300 transform flex items-center justify-center shadow-sm
+                  ${isDark ? "translate-x-6 bg-[#FF6B35]" : "bg-white"}`}
               >
                 {isDark ? (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-3.5 w-3.5"
+                    className="h-3 w-3 text-white"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
-                    strokeWidth={2}
+                    strokeWidth={2.5}
                   >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      d="M12 3v1m0 16v1m8.66-10h-1M4.34 12h-1m15.07 4.24l-.71-.71M6.34 6.34l-.71-.71m12.02 12.02l-.71-.71M6.34 17.66l-.71-.71M12 7a5 5 0 100 10 5 5 0 000-10z"
+                      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
                     />
                   </svg>
                 ) : (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-3.5 w-3.5"
+                    className="h-3 w-3 text-[#FF6B35]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
-                    strokeWidth={2}
+                    strokeWidth={2.5}
                   >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"
+                      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
                     />
                   </svg>
                 )}
@@ -152,6 +183,8 @@ export default function Navbar() {
           navLinks={navLinks}
           isOpen={isMenuOpen}
           onClose={toggleMenu}
+          isDark={isDark}
+          toggleDarkMode={toggleDarkMode}
         />
       </div>
     </>
