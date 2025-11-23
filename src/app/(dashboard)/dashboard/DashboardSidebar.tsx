@@ -127,7 +127,7 @@ export default function DashboardSidebar() {
             <form action="/api/auth/signout" method="POST">
               <button
                 type="submit"
-                className="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-gray-400 hover:bg-gray-800 hover:text-red-400 font-medium transition-all duration-200 group"
+                className="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-gray-400 hover:bg-gray-800 hover:text-red-400 font-medium transition-all duration-200 group cursor-pointer"
               >
                 <FiLogOut className="h-5 w-5 group-hover:scale-110 transition-transform" />
                 <span>Sign Out</span>
@@ -229,7 +229,7 @@ export default function DashboardSidebar() {
               <button
                 type="submit"
                 onClick={() => setMobileSidebarOpen(false)}
-                className="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-gray-400 hover:bg-gray-800 hover:text-red-400 font-medium transition-all duration-200"
+                className="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-gray-400 hover:bg-gray-800 hover:text-red-400 font-medium transition-all duration-200 cursor-pointer"
               >
                 <FiLogOut className="h-5 w-5" />
                 <span>Sign Out</span>

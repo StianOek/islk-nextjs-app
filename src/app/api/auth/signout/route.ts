@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { removeUserFromSession, Cookies } from "@/lib/auth/session";
 
 export async function POST(req: Request) {
-  const res = NextResponse.json({ ok: true });
+  const res = NextResponse.redirect(new URL("/auth", req.url));
 
   // create a cookies handler compatible with your session.ts
   const cookieHandler: Pick<Cookies, "get" | "delete"> = {
