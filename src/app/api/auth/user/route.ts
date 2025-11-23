@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getUserFromSession } from "@/lib/auth/session";
-import { sql, maybeOne } from "@/lib/db";
+import { maybeOne } from "@/lib/db";
 
 export async function GET() {
   try {

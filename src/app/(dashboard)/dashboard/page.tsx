@@ -168,7 +168,7 @@ export default async function Dashboard() {
           Welcome back 👋
         </h1>
         <p className="text-base sm:text-lg text-gray-600">
-          Here's what's happening with your content today.
+          Here&apos;s what&apos;s happening with your content today.
         </p>
       </div>
 
