@@ -15,11 +15,15 @@ export async function GET() {
   const client = await pool.connect();
   try {
     const result = await client.query(
-      `SELECT posts.*, users.name AS author
-   FROM posts
-   JOIN users ON posts.user_id = users.id
-   ORDER BY published_at DESC
-   LIMIT 12`
+      `SELECT 
+        posts.*, 
+        users.name AS author,
+        COALESCE(pvc.view_count, 0) as view_count
+       FROM posts
+       JOIN users ON posts.user_id = users.id
+       LEFT JOIN post_view_counts pvc ON posts.id = pvc.post_id
+       ORDER BY published_at DESC
+       LIMIT 12`
     );
     return NextResponse.json(result.rows);
   } finally {

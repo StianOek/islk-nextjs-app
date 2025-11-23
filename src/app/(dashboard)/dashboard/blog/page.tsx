@@ -16,15 +16,27 @@ export default function BlogDashboard() {
   const [imageUrl, setImageUrl] = useState("");
   const [editingPost, setEditingPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(false);
+  const [fetchingPosts, setFetchingPosts] = useState(true);
 
   const [deletePostId, setDeletePostId] = useState<number | null>(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const gridRef = useRef<HTMLDivElement>(null);
+  const hasAnimated = useRef(false);
 
   const loadPosts = async () => {
-    const res = await fetch("/api/posts");
-    const data = await res.json();
-    setPosts(data);
+    try {
+      setFetchingPosts(true);
+      const res = await fetch("/api/posts", {
+        cache: "no-store",
+      });
+      if (!res.ok) throw new Error("Failed to fetch posts");
+      const data = await res.json();
+      setPosts(data);
+    } catch (error) {
+      console.error("Error loading posts:", error);
+    } finally {
+      setFetchingPosts(false);
+    }
   };
 
   useEffect(() => {
@@ -32,7 +44,9 @@ export default function BlogDashboard() {
   }, []);
 
   useEffect(() => {
-    if (gridRef.current) {
+    // Only animate once on initial load
+    if (gridRef.current && posts.length > 0 && !hasAnimated.current) {
+      hasAnimated.current = true;
       gsap.from(gridRef.current.children, {
         opacity: 0,
         y: 20,
@@ -48,38 +62,45 @@ export default function BlogDashboard() {
     if (!title || !slug || !body) return;
 
     setLoading(true);
-    const payload = {
-      title,
-      slug,
-      body,
-      imageUrl,
-      excerpt: body.slice(0, 120),
-      ...(editingPost ? { id: editingPost.id } : {}),
-    };
+    try {
+      const payload = {
+        title,
+        slug,
+        body,
+        imageUrl,
+        excerpt: body.slice(0, 120),
+        ...(editingPost ? { id: editingPost.id } : {}),
+      };
 
-    const url = "/api/posts";
-    const method = editingPost ? "PUT" : "POST";
+      const url = "/api/posts";
+      const method = editingPost ? "PUT" : "POST";
 
-    const res = await fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-    if (!res.ok) {
-      alert("Failed to save post");
+      if (!res.ok) {
+        throw new Error("Failed to save post");
+      }
+
+      // Reset form
+      setTitle("");
+      setSlug("");
+      setBody("");
+      setImageUrl("");
+      setEditingPost(null);
+      setModalOpen(false);
+
+      // Reload posts
+      await loadPosts();
+    } catch (error) {
+      console.error("Error saving post:", error);
+      alert("Failed to save post. Please try again.");
+    } finally {
       setLoading(false);
-      return;
     }
-
-    setTitle("");
-    setSlug("");
-    setBody("");
-    setImageUrl("");
-    setEditingPost(null);
-    setModalOpen(false);
-    loadPosts();
-    setLoading(false);
   };
 
   const handleDelete = (id: number) => {
@@ -115,29 +136,72 @@ export default function BlogDashboard() {
   };
 
   return (
-    <main className="max-w-6xl mx-auto p-4 sm:p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100">
-          ✍️ Blog Dashboard
-        </h1>
+    <main className="max-w-7xl mx-auto">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+        <div>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">
+            Blog Posts
+          </h1>
+          <p className="text-sm sm:text-base text-gray-600 mt-1 sm:mt-2">
+            Create and manage your blog content
+          </p>
+        </div>
         <button
           onClick={() => setModalOpen(true)}
-          className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg font-semibold transition cursor-pointer"
+          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white px-5 py-2.5 sm:px-6 sm:py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-sm sm:text-base"
         >
-          + Create Post
+          <span className="text-lg sm:text-xl">+</span>
+          <span>Create Post</span>
         </button>
       </div>
 
-      <div ref={gridRef} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {posts.map((post) => (
-          <PostCard
-            key={post.id}
-            post={post}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-          />
-        ))}
-      </div>
+      {fetchingPosts ? (
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {[1, 2, 3].map((i) => (
+            <div
+              key={i}
+              className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 animate-pulse"
+            >
+              <div className="w-full h-48 bg-gray-200" />
+              <div className="p-4 space-y-3">
+                <div className="h-6 bg-gray-200 rounded w-3/4" />
+                <div className="h-4 bg-gray-200 rounded w-1/2" />
+                <div className="space-y-2">
+                  <div className="h-3 bg-gray-200 rounded" />
+                  <div className="h-3 bg-gray-200 rounded" />
+                  <div className="h-3 bg-gray-200 rounded w-5/6" />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : posts.length === 0 ? (
+        <div className="text-center py-12">
+          <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
+            <span className="text-3xl">📝</span>
+          </div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">No posts yet</h3>
+          <p className="text-gray-600 mb-6">Create your first blog post to get started</p>
+          <button
+            onClick={() => setModalOpen(true)}
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-200"
+          >
+            <span className="text-xl">+</span>
+            <span>Create Your First Post</span>
+          </button>
+        </div>
+      ) : (
+        <div ref={gridRef} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post) => (
+            <PostCard
+              key={`post-${post.id}-${post.slug}`}
+              post={post}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
+          ))}
+        </div>
+      )}
 
       <PostModal
         open={modalOpen}

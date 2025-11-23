@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FaArrowLeft } from "react-icons/fa";
+import { FiEye } from "react-icons/fi";
 
 interface Post {
   id: number;
@@ -12,7 +13,8 @@ interface Post {
   published_at: string;
   image_url?: string;
   excerpt?: string;
-  body: string; // Stored as HTML or plain text
+  body: string;
+  view_count?: number;
 }
 
 export default function PostClient({ slug }: { slug: string }) {
@@ -36,6 +38,20 @@ export default function PostClient({ slug }: { slug: string }) {
 
     fetchPost();
   }, [slug]);
+
+  // Track view when post is loaded
+  useEffect(() => {
+    if (post) {
+      // Track view after a short delay to avoid counting quick bounces
+      const timer = setTimeout(() => {
+        fetch(`/api/posts/${slug}/view`, {
+          method: "POST",
+        }).catch((err) => console.error("Failed to track view:", err));
+      }, 3000); // 3 second delay
+
+      return () => clearTimeout(timer);
+    }
+  }, [post, slug]);
 
   if (loading) {
     return (
@@ -79,10 +95,17 @@ export default function PostClient({ slug }: { slug: string }) {
               {post.title}
             </h1>
 
-            <p className="text-gray-300 text-sm md:text-base">
-              Publisert:{" "}
-              {new Date(post.published_at).toLocaleDateString("nb-NO")}
-            </p>
+            <div className="flex items-center justify-center gap-4 text-gray-300 text-sm md:text-base">
+              <p>
+                Publisert:{" "}
+                {new Date(post.published_at).toLocaleDateString("nb-NO")}
+              </p>
+              <span>•</span>
+              <p className="flex items-center gap-1.5">
+                <FiEye className="h-4 w-4" />
+                <span>{post.view_count || 0} visninger</span>
+              </p>
+            </div>
           </div>
         </div>
       )}

@@ -6,4 +6,6 @@ export interface Post {
   image_url?: string;
   excerpt?: string;
   body: string;
+  view_count?: number;
+  author?: string;
 }

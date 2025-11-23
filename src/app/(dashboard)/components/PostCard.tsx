@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import React from "react";
-import { FiEdit2, FiTrash2, FiUser } from "react-icons/fi";
+import { FiEdit2, FiTrash2, FiUser, FiEye } from "react-icons/fi";
 
 interface Post {
   id: number;
@@ -12,7 +12,8 @@ interface Post {
   image_url?: string;
   excerpt?: string;
   published_at: string;
-  author?: string; // Added author
+  author?: string;
+  view_count?: number;
 }
 
 interface PostCardProps {
@@ -57,11 +58,11 @@ export default function PostCard({ post, onEdit, onDelete }: PostCardProps) {
         <h2 className="font-bold text-lg mb-1 text-gray-900 dark:text-gray-100">
           {post.title}
         </h2>
-        <section className="flex items-center justify-between">
-          <p className="flex items-center text-gray-500 dark:text-gray-400 mb-2 text-sm">
+        <section className="flex items-center justify-between mb-2">
+          <p className="flex items-center text-gray-500 dark:text-gray-400 text-sm">
             <FiUser className="mr-1" /> {post.author}
           </p>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
             {new Date(post.published_at).toLocaleDateString("nb-NO")}
           </p>
         </section>
@@ -69,6 +70,15 @@ export default function PostCard({ post, onEdit, onDelete }: PostCardProps) {
         <p className="mt-2 text-gray-700 dark:text-gray-300 line-clamp-3 flex-grow">
           {post.excerpt || post.body.slice(0, 150)}...
         </p>
+
+        {/* View count */}
+        <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
+          <p className="flex items-center text-gray-500 dark:text-gray-400 text-sm">
+            <FiEye className="mr-1.5" />
+            <span className="font-medium">{post.view_count || 0}</span>
+            <span className="ml-1">views</span>
+          </p>
+        </div>
       </div>
     </div>
   );
