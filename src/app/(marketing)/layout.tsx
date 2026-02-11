@@ -32,26 +32,16 @@ export default function LandingPageLayout({
 }>) {
   return (
     <html lang="en">
-      {/*
-        The body is now a flex container that takes up the full viewport height.
-        The `flex-col` and `min-h-screen` classes ensure the footer is pushed to the bottom.
-      */}
       <body
         className={`${robotomono.className} ${geistMono.variable} antialiased bg-[#FAFAFA] dark:bg-[#1A1A1A] transition-all duration-500 flex flex-col min-h-screen`}
       >
         <main>
-          {/*
-            This container div provides consistent max-width and horizontal padding.
-            The `container` class centers the content, and `mx-auto` handles the centering.
-            The `px-4 sm:px-6 lg:px-8` classes provide responsive padding for different screen sizes.
-          */}
           <div className=" mx-auto ">
             <Navbar />
-            <div className="pt-20">{children}</div>
+            <div >{children}</div>
             <Footer />
           </div>
         </main>
-
         {/* The footer is outside the main content area, allowing the main content to grow and push it down */}
       </body>
     </html>
