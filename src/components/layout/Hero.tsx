@@ -28,7 +28,7 @@ export default function Hero() {
                   Sosiale
                 </span>
                 <br />
-                <span className="text-[#FF6B35] bg-gradient-to-r from-[#FF6B35] to-[#F7931E] bg-clip-text text-transparent">
+                <span className="text-[#FF6B35] bg-gradient-to-r from-[#FF6B35] to-[#F7931E] bg-clip-text">
                   Løpeklubb
                 </span>
               </h1>
@@ -80,10 +80,10 @@ export default function Hero() {
           </div>
 
           {/* Right: Image */}
-          <div className="relative flex justify-center lg:justify-end">
+          <div className="relative lg:flex justify-center lg:justify-end hidden">
             <div className="relative w-full max-w-lg">
               {/* Main image */}
-              <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl">
+              <div className="relative aspect-square rounded-3xl overflow-hidden ">
                 <Image
                   width={600}
                   height={600}
@@ -93,7 +93,7 @@ export default function Hero() {
                   priority
                 />
                 {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-[#FF6B35]/20 via-transparent to-transparent" />
+                <div className="absolute inset-0 " />
               </div>
 
               {/* Decorative elements */}
